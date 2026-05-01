@@ -3,258 +3,1124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Baptism Invitation</title>
-
+<title>Kiana Briane</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: 'Playfair Display', serif;
-  overflow-x: hidden;
-}
-
-/* BACKGROUND */
-.poster {
   min-height: 100vh;
-  padding: 20px;
+  font-family: 'Playfair Display', serif;
+  background: radial-gradient(circle at top, rgba(255,255,255,0.98), #f1d3e0 45%, #d2b7ef 100%);
+  color: #3b2140;
+}
+
+.poster {
+  width: min(100%, 720px);
+  margin: 0 auto;
+  padding: 20px 18px 40px;
   text-align: center;
-  background: linear-gradient(to bottom, #f8f8f8, #f5c6d6, #cba6f7);
 }
 
-/* NAME */
-.name {
-  font-family: 'Great Vibes';
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(18, 11, 33, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.intro-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.98);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.intro-card {
+  width: min(100%, 520px);
+  border-radius: 28px;
+  padding: 32px 28px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.32);
+  box-shadow: 0 28px 80px rgba(0,0,0,0.25);
+  text-align: center;
+  color: #fff;
+}
+
+.intro-label {
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #f4d7f0;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.intro-card h2 {
   font-size: 2.8rem;
+  margin: 0;
+  line-height: 1.05;
+  color: #fff;
 }
 
-/* FRAME */
+.intro-subtext {
+  margin: 18px auto 24px;
+  max-width: 430px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.9);
+}
+
+.intro-card button {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  padding: 14px 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-in-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-0 { transition-delay: 0s; }
+.delay-1 { transition-delay: 0.08s; }
+.delay-2 { transition-delay: 0.16s; }
+.delay-3 { transition-delay: 0.24s; }
+.delay-4 { transition-delay: 0.32s; }
+.delay-5 { transition-delay: 0.40s; }
+.delay-6 { transition-delay: 0.48s; }
+.delay-7 { transition-delay: 0.56s; }
+
+.godparents-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(170px, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.godparent-group {
+  background: rgba(255,255,255,0.92);
+  border-radius: 20px;
+  padding: 16px;
+  border: 1px solid rgba(214, 162, 217, 0.45);
+}
+
+.group-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #5b2f5f;
+}
+
+.godparent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.godparent-list li {
+  color: #5b3c61;
+  font-size: 0.95rem;
+}
+
+.message-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.time-label {
+  color: #8d6b90;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.reaction-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.reaction-button {
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 228, 244, 0.95);
+  color: #5b2f5f;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.reaction-button:hover {
+  background: rgba(255, 199, 226, 1);
+}
+
+.reaction-count {
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .godparents-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intro-card {
+    padding: 28px 20px;
+  }
+}
+
+.top-text {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #6c4068;
+  margin-bottom: 8px;
+}
+
+.name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  margin: 8px 0 12px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  color: #4f2a4f;
+}
+
+.name span {
+  display: block;
+}
+
 .photo-frame {
   position: relative;
-  width: 320px;
+  width: 92%;
+  max-width: 420px;
   margin: 20px auto;
 }
 
 .frame-img {
-  width: 140%;
+  width: 100%;
+  display: block;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(96, 44, 98, 0.12);
 }
 
 .sister-img {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 65%;
   transform: translate(-50%, -50%);
+  width: 74%;
+  border-radius: 20px;
+  box-shadow: 0 22px 50px rgba(0,0,0,0.16);
 }
 
-/* GLASS CARD */
-.card {
-  background: rgba(255,255,255,0.4);
-  backdrop-filter: blur(10px);
+.date {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  align-items: center;
+  margin: 18px 0 0;
+  flex-wrap: wrap;
+  color: #6d3f72;
+  margin-top: 150px;
+}
+
+.date h2 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.month {
+  font-weight: bold;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+}
+
+.countdown,
+.details-card,
+.section-card,
+.message-wall {
+  width: min(100%, 560px);
+  margin: 22px auto;
   padding: 20px;
-  border-radius: 15px;
-  margin: 20px auto;
-  max-width: 400px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.9);
+  box-shadow: 0 18px 45px rgba(104, 36, 103, 0.09);
 }
 
-/* INPUT */
-input, textarea {
-  width: 90%;
-  padding: 12px;
-  margin: 5px;
-  border-radius: 10px;
-  border: none;
+.countdown-title,
+.details-title,
+.section-title,
+.gallery-title,
+.guest-gallery-title,
+.message-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #4f2e55;
 }
 
-/* IOS BUTTON */
-button {
+.timer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-weight: 700;
+}
+
+.time-box {
+  background: rgba(255, 158, 181, 0.26);
+  padding: 12px 14px;
+  border-radius: 18px;
+  min-width: 68px;
+}
+
+.detail-item {
+  margin: 12px 0;
+  text-align: left;
+}
+
+.detail-label {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 6px;
+  color: #5f3a62;
+}
+
+.map-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 0;
+}
+
+.map-box {
   width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  border: none;
-  background: rgba(255,105,180,0.4);
-  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 45px rgba(82, 23, 101, 0.12);
+}
+
+iframe {
+  width: 100%;
+  min-height: 260px;
+  border: 0;
+}
+
+.directions-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 18px auto 0;
+  padding: 14px 18px;
+  max-width: 320px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff96ba, #c26cff);
   color: white;
+  text-decoration: none;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.65);
+  box-shadow: 0 14px 30px rgba(203, 106, 247, 0.22);
+}
+
+.gallery-section,
+.guest-gallery-section,
+.message-wall {
+  text-align: left;
+}
+
+.gallery-scroll,
+.guest-gallery-grid {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.gallery-scroll img,
+.guest-card {
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.gallery-scroll img {
+  width: 200px;
+  min-width: 200px;
+  height: 280px;
+}
+
+.guest-gallery-grid {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.guest-card {
+  flex: 1 1 180px;
+  min-width: 180px;
+  max-width: 260px;
+  background: rgba(255,255,255,0.92);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 10px 26px rgba(89, 22, 103, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guest-card-title {
+  font-weight: 700;
+  color: #4a2a52;
+  font-size: 0.95rem;
+}
+
+.guest-card-meta {
+  font-size: 0.88rem;
+  color: #6b4d72;
+}
+
+.form-row {
+  display: grid;
+  gap: 14px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(136, 76, 130, 0.15);
+  background: rgba(255,255,255,0.94);
   font-size: 1rem;
-  transition: 0.3s;
+  color: #3b2140;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
 }
 
-button:hover {
-  transform: scale(1.05);
+textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
-/* GALLERY */
-#guestGallery img {
-  width: 90px;
-  border-radius: 10px;
-  margin: 5px;
+button,
+.secondary-btn {
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff8fb9, #c06bff);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(203, 106, 247, 0.23);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-/* PETALS 🌸 */
-.petal {
+button:hover,
+.secondary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 36px rgba(203, 106, 247, 0.3);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  background: rgba(255, 238, 245, 0.96);
+  border: 1px solid rgba(255, 182, 202, 0.7);
+  color: #7c2d51;
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.count-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.summary-card {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.95);
+}
+
+.summary-card strong {
+  display: block;
+  font-size: 1.5rem;
+  color: #5b2f5f;
+}
+
+.summary-card span {
+  display: block;
+  margin-top: 6px;
+  color: #785375;
+  font-size: 0.95rem;
+}
+
+#message,
+#alertText,
+#messageStatus {
+  margin-top: 12px;
+  color: #5a2f5f;
+  font-weight: 700;
+}
+
+.message-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.message-item {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(255,197,217,0.82);
+}
+
+.message-item strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #4c2f51;
+}
+
+.message-item p {
+  margin: 0;
+  color: #5d3f5d;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .date {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .photo-frame {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .sister-img {
+    width: 82%;
+  }
+
+  .guest-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .gallery-scroll img {
+    min-width: 180px;
+    width: 180px;
+    height: 250px;
+  }
+
+  .count-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .directions-btn {
+    width: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
+
+  .countdown,
+  .details-card,
+  .section-card,
+  .message-wall {
+    padding: 18px;
+  }
+}
+
+/* =========================
+   🌸 PETALS (FIXED LAYER)
+   ========================= */
+.petals {
   position: fixed;
-  width: 25px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.petal {
+  position: absolute;
+  top: -10px;
+  width: 12px;
+  height: 12px;
+  background: pink;
+  border-radius: 50% 50% 50% 0;
+  opacity: 0.7;
+  transform: rotate(45deg);
   animation: fall linear infinite;
-  z-index: 0;
 }
 
 @keyframes fall {
   0% {
-    transform: translateY(-50px) rotate(0deg);
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0;
   }
+  10% { opacity: 1; }
   100% {
-    transform: translateY(100vh) rotate(360deg);
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
   }
 }
+
+/* different speeds */
+.p1 { left: 5%; animation-duration: 10s; }
+.p2 { left: 15%; animation-duration: 14s; }
+.p3 { left: 25%; animation-duration: 12s; }
+.p4 { left: 35%; animation-duration: 16s; }
+.p5 { left: 45%; animation-duration: 11s; }
+.p6 { left: 55%; animation-duration: 15s; }
+.p7 { left: 65%; animation-duration: 13s; }
+.p8 { left: 75%; animation-duration: 17s; }
+.p9 { left: 85%; animation-duration: 12s; }
+.p10 { left: 95%; animation-duration: 18s; }
 </style>
 </head>
 
 <body>
+    <!-- 🌸 PETALS LAYER -->
+<div class="petals">
+  <span class="petal p1"></span>
+  <span class="petal p2"></span>
+  <span class="petal p3"></span>
+  <span class="petal p4"></span>
+  <span class="petal p5"></span>
+  <span class="petal p6"></span>
+  <span class="petal p7"></span>
+  <span class="petal p8"></span>
+  <span class="petal p9"></span>
+  <span class="petal p10"></span>
+</div>
+    <!-- 🌸 PETALS LAYER -->
+<div class="petals">
+  <span class="petal p1"></span>
+  <span class="petal p2"></span>
+  <span class="petal p3"></span>
+  <span class="petal p4"></span>
+  <span class="petal p5"></span>
+  <span class="petal p6"></span>
+  <span class="petal p7"></span>
+  <span class="petal p8"></span>
+  <span class="petal p9"></span>
+  <span class="petal p10"></span>
+</div>
 
 <div class="poster">
 
-<h1 class="name">Kiana Briane</h1>
+  <p class="top-text">PLEASE JOIN US FOR THE CHRISTENING OF</p>
 
-<div class="photo-frame">
-  <img src="images/r2.png" class="frame-img">
-  <img src="images/r1.png" class="sister-img">
+  <h1 class="name">Kiana <span>Briane</span></h1>
+
+  <div class="photo-frame">
+    <img src="images/r2.png" class="frame-img">
+    <img src="images/r1.png" class="sister-img">
+  </div>
+
+  <div class="date">
+    <span>Saturday</span>
+    <h2>23</h2>
+    <span>9:30 AM</span>
+  </div>
+
+  <p class="month">May 2026</p>
+
+  <!-- ⏳ COUNTDOWN -->
+  <div class="countdown fade-in-section delay-0">
+    <div class="countdown-title">⏳ Countdown to Baptism</div>
+    <div class="timer">
+      <div class="time-box"><div id="days">0</div>Days</div>
+      <div class="time-box"><div id="hours">0</div>Hours</div>
+      <div class="time-box"><div id="minutes">0</div>Mins</div>
+      <div class="time-box"><div id="seconds">0</div>Secs</div>
+    </div>
+  </div>
+
+  <!-- DETAILS -->
+  <div class="details-card fade-in-section delay-1">
+    <div class="details-title">Event Details</div>
+
+    <div class="detail-item">
+      <span class="detail-label">📍 Ceremony</span>
+      San Isidro de Labrador Parish Church
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">🎉 Reception</span>
+      Villa Velmar Resort
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">🕒 Time</span>
+      11:00 AM
+    </div>
+  </div>
+
+  <div class="details-card fade-in-section delay-2">
+    <div class="details-title">Godparents</div>
+    <div class="godparents-grid">
+      <div class="godparent-group">
+        <div class="group-title">Male Sponsors</div>
+        <ul class="godparent-list">
+          <li>Male Sponsor 1</li>
+          <li>Male Sponsor 2</li>
+          <li>Male Sponsor 3</li>
+          <li>Male Sponsor 4</li>
+          <li>Male Sponsor 5</li>
+          <li>Male Sponsor 6</li>
+          <li>Male Sponsor 7</li>
+          <li>Male Sponsor 8</li>
+          <li>Male Sponsor 9</li>
+          <li>Male Sponsor 10</li>
+        </ul>
+      </div>
+      <div class="godparent-group">
+        <div class="group-title">Female Sponsors</div>
+        <ul class="godparent-list">
+          <li>Female Sponsor 1</li>
+          <li>Female Sponsor 2</li>
+          <li>Female Sponsor 3</li>
+          <li>Female Sponsor 4</li>
+          <li>Female Sponsor 5</li>
+          <li>Female Sponsor 6</li>
+          <li>Female Sponsor 7</li>
+          <li>Female Sponsor 8</li>
+          <li>Female Sponsor 9</li>
+          <li>Female Sponsor 10</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div class="map-section fade-in-section delay-3">
+    <div class="map-box">
+      <iframe src="https://www.google.com/maps?q=15.6303773,120.9517573&z=17&output=embed"></iframe>
+    </div>
+  </div>
+
+  <a href="https://www.google.com/maps/dir/?api=1&destination=15.6303773,120.9517573"
+     target="_blank"
+     class="directions-btn">
+    🚗 Get Directions
+  </a>
+
+  <!-- GALLERY -->
+  
+
+  <div class="section-card">
+    <div class="section-title">🎟 Guest Check-in</div>
+    <div class="form-row">
+      <input type="text" id="name" placeholder="Enter your name">
+      <select id="guests">
+        <option value="1">1 guest</option>
+        <option value="2">2 guests</option>
+        <option value="3">3 guests</option>
+        <option value="4">4 guests</option>
+      </select>
+    </div>
+    <button id="checkinButton">Check In</button>
+    <p id="alertText">Your arrival status can be detected when you check in.</p>
+    <div class="count-summary">
+      <div class="summary-card">
+        <strong id="totalGuests">0</strong>
+        <span>Total guests</span>
+      </div>
+      <div class="summary-card">
+        <strong id="totalNames">0</strong>
+        <span>Confirmed names</span>
+      </div>
+    </div>
+    <div class="status-pill" id="locationStatus">Arrival status will appear here</div>
+  </div>
+
+  <div class="guest-gallery-section fade-in-section delay-4">
+    <h2 class="guest-gallery-title">👥 Guests</h2>
+    <div class="guest-gallery-grid" id="guestGallery"></div>
+  </div>
+
+  <div class="section-card message-wall fade-in-section delay-5">
+    <div class="section-title">🎁 Leave a message for Kiana</div>
+    <div class="form-row">
+      <input type="text" id="messageName" placeholder="Your name">
+      <textarea id="guestMessage" placeholder="Leave a message..."></textarea>
+    </div>
+    <button id="messageButton">Send Message</button>
+    <p id="messageStatus"></p>
+    <div class="message-list" id="messagesList"></div>
+  </div>
+
+<div class="gallery-section fade-in-section delay-7">
+    <h2 class="gallery-title">📸 Gallery</h2>
+    <div class="gallery-scroll">
+      <img src="images/1.jpg">
+      <img src="images/2.jpg">
+      <img src="images/3.jpg">
+      <img src="images/4.jpg">
+      <img src="images/5.jpg">
+      <img src="images/6.jpg">
+      <img src="images/7.jpg">
+      <img src="images/8.jpg">
+    </div>
+  </div>
+  
 </div>
 
-<!-- CHECKIN -->
-<div class="card">
-  <h3>💖 Check In</h3>
-
-  <input id="name" placeholder="Your Name">
-  <input id="guests" type="number" placeholder="No. of Guests" min="1">
-  <textarea id="messageBox" placeholder="Message for baby 💖"></textarea>
-  <input type="file" id="photo">
-
-  <button onclick="submitName()">Check In</button>
-</div>
-
-<!-- COUNT -->
-<div class="card">
-  <h3 id="guestCount">Total Guests: 0</h3>
-</div>
-
-<!-- LIST -->
-<div class="card">
-  <h3>Guest List</h3>
-  <ul id="guestList"></ul>
-</div>
-
-<!-- GALLERY -->
-<div class="card">
-  <h3>Guest Gallery 📸</h3>
-  <div id="guestGallery"></div>
-</div>
-
-</div>
-
-<!-- 🌸 PETALS SCRIPT -->
-<script>
-for (let i = 0; i < 15; i++) {
-  let petal = document.createElement("img");
-  petal.src = "images/petal.png";
-  petal.className = "petal";
-
-  petal.style.left = Math.random() * 100 + "vw";
-  petal.style.animationDuration = (5 + Math.random() * 5) + "s";
-
-  document.body.appendChild(petal);
-}
-</script>
-
-<!-- 🔥 FIREBASE -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, push, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
+  import { getFirestore, collection, query, where, getDocs, addDoc, orderBy, doc, updateDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "PASTE_YOURS",
-  authDomain: "PASTE_YOURS",
-  databaseURL: "PASTE_YOURS",
-  projectId: "PASTE_YOURS",
-  storageBucket: "PASTE_YOURS",
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyAQ8DM16CDnhh51m0LiM4c2DoCXWhYDE4Q",
+    authDomain: "invite-site-73bfb.firebaseapp.com",
+    projectId: "invite-site-73bfb",
+    storageBucket: "invite-site-73bfb.firebasestorage.app",
+    messagingSenderId: "542444753010",
+    appId: "1:542444753010:web:4831abf5f76839207572eb",
+    measurementId: "G-Q05SPC6MTM"
+  };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const storage = getStorage(app);
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
 
-const audio = new Audio("images/success.mp3");
+  const eventDate = new Date("May 23, 2026 09:30:00").getTime();
+  const eventLocation = { lat: 15.6303773, lng: 120.9517573 };
+  const arrivalRadius = 300;
 
-window.submitName = async function () {
-  const name = document.getElementById("name").value.trim();
-  const guests = document.getElementById("guests").value || 1;
-  const message = document.getElementById("messageBox").value;
+  const nameInput = document.getElementById("name");
+  const guestsInput = document.getElementById("guests");
+  const alertText = document.getElementById("alertText");
+  const totalGuestsElement = document.getElementById("totalGuests");
+  const totalNamesElement = document.getElementById("totalNames");
+  const locationStatus = document.getElementById("locationStatus");
+  const guestGallery = document.getElementById("guestGallery");
+  const messagesList = document.getElementById("messagesList");
+  const messageNameInput = document.getElementById("messageName");
+  const guestMessageInput = document.getElementById("guestMessage");
+  const messageButton = document.getElementById("messageButton");
+  const messageStatus = document.getElementById("messageStatus");
+  const checkinButton = document.getElementById("checkinButton");
 
-  if (!name) return alert("Enter name");
-
-  const snapshot = await get(child(ref(db), "guests"));
-  let exists = false;
-
-  if (snapshot.exists()) {
-    snapshot.forEach(c => {
-      if (c.val().name.toLowerCase() === name.toLowerCase()) {
-        exists = true;
-      }
+  async function playCheckinMusic() {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') {
+      await audioCtx.resume();
+    }
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((frequency, index) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = frequency;
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const start = audioCtx.currentTime + index * 0.18;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.02, start + 0.16);
+      osc.start(start);
+      osc.stop(start + 0.18);
     });
   }
 
-  if (exists) return alert("Already checked in!");
-
-  const file = document.getElementById("photo").files[0];
-  let photoURL = "";
-
-  if (file) {
-    const storageRef = sRef(storage, "photos/" + Date.now());
-    await uploadBytes(storageRef, file);
-    photoURL = await getDownloadURL(storageRef);
+  function formatTimeAgo(timestamp) {
+    const now = Date.now();
+    const diff = Math.max(0, now - timestamp);
+    const minutes = Math.floor(diff / 60000);
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes} min${minutes === 1 ? '' : 's'} ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+    const days = Math.floor(hours / 24);
+    return `${days} day${days === 1 ? '' : 's'} ago`;
   }
 
-  push(ref(db, "guests"), {
-    name,
-    guests,
-    message,
-    photoURL,
-    time: new Date().toLocaleString()
-  });
+  async function updateMessageReactions(messageId, type) {
+    const messageRef = doc(db, 'messages', messageId);
+    await updateDoc(messageRef, { [`reactions.${type}`]: increment(1) });
+  }
 
-  audio.play();
+  function createMessageItem(docSnapshot) {
+    const data = docSnapshot.data();
+    const reactions = data.reactions || { heart: 0, pray: 0, sparkle: 0 };
+    const item = document.createElement('div');
+    item.className = 'message-item';
+    item.innerHTML = `
+      <div class="message-top">
+        <strong>${data.name}</strong>
+        <span class="time-label">${formatTimeAgo(data.createdAt)}</span>
+      </div>
+      <p>${data.message}</p>
+      <div class="reaction-row">
+        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="heart">❤️ <span class="reaction-count">${reactions.heart || 0}</span></button>
+        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="pray">🙏 <span class="reaction-count">${reactions.pray || 0}</span></button>
+        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="sparkle">✨ <span class="reaction-count">${reactions.sparkle || 0}</span></button>
+      </div>
+    `;
 
-  document.getElementById("name").value = "";
-};
+    item.querySelectorAll('.reaction-button').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const reactionType = button.dataset.reaction;
+        await updateMessageReactions(docSnapshot.id, reactionType);
+      });
+    });
 
-const list = document.getElementById("guestList");
-const gallery = document.getElementById("guestGallery");
-const countBox = document.getElementById("guestCount");
+    return item;
+  }
 
-onValue(ref(db, "guests"), (snapshot) => {
-  list.innerHTML = "";
-  gallery.innerHTML = "";
-
-  let total = 0;
-
-  snapshot.forEach(c => {
-    const d = c.val();
-    total += Number(d.guests);
-
-    const li = document.createElement("li");
-    li.innerText = `${d.name} (+${d.guests})`;
-    list.appendChild(li);
-
-    if (d.photoURL) {
-      const img = document.createElement("img");
-      img.src = d.photoURL;
-      gallery.appendChild(img);
+  function getIntroOverlay() {
+    const overlay = document.getElementById('introOverlay');
+    const button = document.getElementById('introButton');
+    const closeIntro = () => {
+      if (!overlay) return;
+      overlay.classList.add('hidden');
+      document.body.classList.remove('no-scroll');
+    };
+    if (button) button.addEventListener('click', closeIntro);
+    if (overlay) {
+      document.body.classList.add('no-scroll');
+      setTimeout(closeIntro, 5000);
     }
-  });
+  }
 
-  countBox.innerText = "Total Guests: " + total;
-});
+  function triggerFadeIn() {
+    document.querySelectorAll('.fade-in-section').forEach((section, index) => {
+      setTimeout(() => section.classList.add('visible'), index * 100);
+    });
+  }
+
+  function getDistanceMeters(lat1, lng1, lat2, lng2) {
+    const R = 6371000;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  function detectArrival() {
+    return new Promise((resolve) => {
+      if (!navigator.geolocation) {
+        resolve(null);
+        return;
+      }
+      navigator.geolocation.getCurrentPosition((position) => {
+        const distanceMeters = getDistanceMeters(
+          eventLocation.lat,
+          eventLocation.lng,
+          position.coords.latitude,
+          position.coords.longitude
+        );
+        resolve({
+          arrived: distanceMeters <= arrivalRadius,
+          distanceMeters
+        });
+      }, () => {
+        resolve(null);
+      }, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 20000
+      });
+    });
+  }
+
+  async function submitCheckin() {
+    const nameValue = nameInput.value.trim();
+    const guestsCount = parseInt(guestsInput.value, 10) || 1;
+
+    if (!nameValue) {
+      alertText.innerText = 'Please enter your name before checking in.';
+      return;
+    }
+
+    alertText.innerText = 'Checking for duplicates...';
+
+    const attendeeQuery = query(
+      collection(db, 'attendees'),
+      where('nameLower', '==', nameValue.toLowerCase())
+    );
+    const duplicateSnapshot = await getDocs(attendeeQuery);
+    if (!duplicateSnapshot.empty) {
+      alertText.innerText = 'This name has already checked in. Please use the registered name only.';
+      return;
+    }
+
+    const location = await detectArrival();
+    const locationText = location
+      ? location.arrived
+        ? `Arrived at location • ${Math.round(location.distanceMeters)}m away`
+        : `Near location • ${Math.round(location.distanceMeters)}m away`
+      : 'Location unavailable or permission denied';
+
+    locationStatus.innerText = locationText;
+
+    await addDoc(collection(db, 'attendees'), {
+      name: nameValue,
+      nameLower: nameValue.toLowerCase(),
+      guestsCount,
+      arrivalStatus: locationText,
+      distanceMeters: location?.distanceMeters || null,
+      createdAt: Date.now()
+    });
+
+    nameInput.value = '';
+    messageStatus.innerText = '';
+    alertText.innerText = 'Thank you for checking in! Your guest count has been updated.';
+    playCheckinMusic();
+    await loadCounts();
+    await loadGuestGallery();
+  }
+
+  async function loadCounts() {
+    const snapshot = await getDocs(collection(db, 'attendees'));
+    let totalGuests = 0;
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      totalGuests += Number(data.guestsCount || 1);
+    });
+    totalGuestsElement.innerText = totalGuests;
+    totalNamesElement.innerText = snapshot.size;
+  }
+
+  async function loadGuestGallery() {
+    const galleryQuery = query(collection(db, 'attendees'), orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(galleryQuery);
+    guestGallery.innerHTML = '';
+
+    if (snapshot.empty) {
+      guestGallery.innerHTML = '<div style="color:#714275;font-weight:700;">No guest check-ins yet.</div>';
+      return;
+    }
+
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      const card = document.createElement('div');
+      card.className = 'guest-card';
+      card.innerHTML = `
+        <div class="guest-card-title">${data.name}</div>
+        <div class="guest-card-meta">${data.guestsCount} guest${data.guestsCount === 1 ? '' : 's'} • ${data.arrivalStatus || 'No location info'}</div>
+      `;
+      guestGallery.appendChild(card);
+    });
+  }
+
+  async function submitMessage() {
+    const nameValue = messageNameInput.value.trim();
+    const textValue = guestMessageInput.value.trim();
+    if (!nameValue || !textValue) {
+      messageStatus.innerText = 'Please add your name and a message before sending.';
+      return;
+    }
+
+    await addDoc(collection(db, 'messages'), {
+      name: nameValue,
+      message: textValue,
+      reactions: { heart: 0, pray: 0, sparkle: 0 },
+      createdAt: Date.now()
+    });
+
+    messageNameInput.value = '';
+    guestMessageInput.value = '';
+    messageStatus.innerText = 'Your message is posted. Thank you!';
+  }
+
+  function setupMessageListener() {
+    const messageQuery = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+    onSnapshot(messageQuery, (snapshot) => {
+      messagesList.innerHTML = '';
+      if (snapshot.empty) {
+        messagesList.innerHTML = '<div style="color:#714275;font-weight:700;">No messages yet. Be first to leave a note for baby!</div>';
+        return;
+      }
+      snapshot.forEach((docSnapshot) => {
+        const item = createMessageItem(docSnapshot);
+        messagesList.appendChild(item);
+      });
+    });
+  }
+
+  checkinButton.addEventListener('click', submitCheckin);
+  messageButton.addEventListener('click', submitMessage);
+
+  loadCounts();
+  loadGuestGallery();
+  setupMessageListener();
+  getIntroOverlay();
+  window.addEventListener('load', triggerFadeIn);
+
+  const x = setInterval(function() {
+    const now = new Date().getTime();
+    const distance = eventDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('days').innerText = days;
+    document.getElementById('hours').innerText = hours;
+    document.getElementById('minutes').innerText = minutes;
+    document.getElementById('seconds').innerText = seconds;
+
+    if (distance < 0) {
+      clearInterval(x);
+      document.querySelector('.countdown').innerHTML = '🎉 The event has started!';
+    }
+  }, 1000);
 </script>
 
 </body>
