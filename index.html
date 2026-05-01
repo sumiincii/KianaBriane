@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baptism Invitation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+}
+
+.poster {
+  min-height: 100vh;
+  padding: 20px;
+  text-align: center;
+  color: #000;
+  background: linear-gradient(to bottom, #f8f8f8, #f5c6d6, #cba6f7);
+}
+
+/* TITLE */
+.top-text {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.8rem;
+  margin: 10px 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+/* FRAME */
+.photo-frame {
+  position: relative;
+  width: 450px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.frame-img {
+  width: 165%;
+  display: block;
+  margin-right: 20px;
+}
+
+.sister-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  border-radius: 10px;
+}
+
+/* DATE */
+.date {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+  margin: 20px 0;
+  margin-top: 100px;
+}
+
+.date h2 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.month {
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+/* =========================
+   ⏳ COUNTDOWN TIMER
+   ========================= */
+.countdown {
+  max-width: 500px;
+  margin: 25px auto;
+  padding: 15px;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.countdown-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  font-weight: bold;
+}
+
+.time-box {
+  background: rgba(255, 158, 181, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 60px;
+}
+
+/* DETAILS CARD */
+.details-card {
+  max-width: 500px;
+  margin: 30px auto;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.details-title {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.detail-item {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.detail-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 3px;
+  color: #333;
+}
+
+/* MAP */
+.map-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.map-box {
+  width: 100%;
+  max-width: 500px;
+}
+
+iframe {
+  width: 100%;
+  height: 250px;
+  border: 0;
+  border-radius: 12px;
+}
+
+/* BUTTON */
+.directions-btn {
+  display: block;
+  margin-top: 15px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 158, 181, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #5a2a3a;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* GALLERY */
+.gallery-section {
+  margin-top: 40px;
+}
+
+.gallery-title {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.gallery-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px;
+}
+
+.gallery-scroll img {
+  width: 70%;
+  max-width: 220px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+/* CHECKIN */
+.checkin {
+  margin-top: 30px;
+}
+
+input {
+  width: 80%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(10px);
+}
+
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: rgba(255, 158, 181, 0.4);
+  backdrop-filter: blur(10px);
+  color: #5a2a3a;
+  font-weight: bold;
+}
+
+
+/* =========================
+   🌸 PETALS (FIXED LAYER)
+   ========================= */
+.petals {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.petal {
+  position: absolute;
+  top: -10px;
+  width: 12px;
+  height: 12px;
+  background: pink;
+  border-radius: 50% 50% 50% 0;
+  opacity: 0.7;
+  transform: rotate(45deg);
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* different speeds */
+.p1 { left: 5%; animation-duration: 10s; }
+.p2 { left: 15%; animation-duration: 14s; }
+.p3 { left: 25%; animation-duration: 12s; }
+.p4 { left: 35%; animation-duration: 16s; }
+.p5 { left: 45%; animation-duration: 11s; }
+.p6 { left: 55%; animation-duration: 15s; }
+.p7 { left: 65%; animation-duration: 13s; }
+.p8 { left: 75%; animation-duration: 17s; }
+.p9 { left: 85%; animation-duration: 12s; }
+.p10 { left: 95%; animation-duration: 18s; }
+
+
+
+
+
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .photo-frame {
+    width: 290px;
+  }
+  .sister-img {
+    width: 80%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+    <!-- 🌸 PETALS LAYER -->
+<div class="petals">
+  <span class="petal p1"></span>
+  <span class="petal p2"></span>
+  <span class="petal p3"></span>
+  <span class="petal p4"></span>
+  <span class="petal p5"></span>
+  <span class="petal p6"></span>
+  <span class="petal p7"></span>
+  <span class="petal p8"></span>
+  <span class="petal p9"></span>
+  <span class="petal p10"></span>
+</div>
+
+<div class="poster">
+
+  <p class="top-text">PLEASE JOIN US FOR THE CHRISTENING OF</p>
+
+  <h1 class="name">Kiana <span>Briane</span></h1>
+
+  <div class="photo-frame">
+    <img src="images/r2.png" class="frame-img">
+    <img src="images/r1.png" class="sister-img">
+  </div>
+
+  <div class="date">
+    <span>Saturday</span>
+    <h2>23</h2>
+    <span>9:30 AM</span>
+  </div>
+
+  <p class="month">May 2026</p>
+
+  <!-- ⏳ COUNTDOWN -->
+  <div class="countdown">
+    <div class="countdown-title">⏳ Countdown to Baptism</div>
+    <div class="timer">
+      <div class="time-box"><div id="days">0</div>Days</div>
+      <div class="time-box"><div id="hours">0</div>Hours</div>
+      <div class="time-box"><div id="minutes">0</div>Mins</div>
+      <div class="time-box"><div id="seconds">0</div>Secs</div>
+    </div>
+  </div>
+
+  <!-- DETAILS -->
+  <div class="details-card">
+    <div class="details-title">Event Details</div>
+
+    <div class="detail-item">
+      <span class="detail-label">📍 Ceremony</span>
+      San Isidro de Labrador Parish Church
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">🎉 Reception</span>
+      Villa Velmar Resort
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">🕒 Time</span>
+      11:00 AM
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div class="map-section">
+    <div class="map-box">
+      <iframe src="https://www.google.com/maps?q=15.6303773,120.9517573&z=17&output=embed"></iframe>
+    </div>
+  </div>
+
+  <a href="https://www.google.com/maps/dir/?api=1&destination=15.6303773,120.9517573"
+     target="_blank"
+     class="directions-btn">
+    🚗 Get Directions
+  </a>
+
+  <!-- GALLERY -->
+  <div class="gallery-section">
+    <h2 class="gallery-title">📸 GALLERY</h2>
+    <div class="gallery-scroll">
+      <img src="images/1.jpg">
+      <img src="images/2.jpg">
+      <img src="images/3.jpg">
+      <img src="images/4.jpg">
+      <img src="images/5.jpg">
+      <img src="images/6.jpg">
+      <img src="images/7.jpg">
+      <img src="images/8.jpg">
+    </div>
+  </div>
+
+  <!-- CHECKIN -->
+  <div class="checkin">
+    <input type="text" id="name" placeholder="Enter your name">
+    <button onclick="submitName()">Check In</button>
+    <p id="message"></p>
+  </div>
+
+</div>
+
+<script>
+function submitName() {
+  const name = document.getElementById("name").value;
+
+  if (!name) {
+    alert("Enter your name first 💖");
+    return;
+  }
+
+  document.getElementById("message").innerText =
+    "Thank you for confirming your attendance 💖";
+
+  document.getElementById("name").value = "";
+}
+
+/* ⏳ COUNTDOWN SCRIPT */
+const eventDate = new Date("May 23, 2026 09:30:00").getTime();
+
+const x = setInterval(function() {
+
+  const now = new Date().getTime();
+  const distance = eventDate - now;
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("days").innerText = days;
+  document.getElementById("hours").innerText = hours;
+  document.getElementById("minutes").innerText = minutes;
+  document.getElementById("seconds").innerText = seconds;
+
+  if (distance < 0) {
+    clearInterval(x);
+    document.querySelector(".countdown").innerHTML = "🎉 The event has started!";
+  }
+
+}, 1000);
+</script>
+
+</body>
+</html>

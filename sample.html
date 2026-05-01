@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baptism Invitation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+}
+
+.poster {
+  min-height: 100vh;
+  padding: 20px;
+  text-align: center;
+  color: #000;
+  background: linear-gradient(to bottom, #f8f8f8, #f5c6d6, #cba6f7);
+}
+
+/* TITLE */
+.top-text {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.8rem;
+  margin: 10px 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+/* .name span {
+  display: block;
+} */
+
+/* FRAME CONTAINER */
+.photo-frame {
+  position: relative;
+  width: 450px;   /* bigger frame */
+  margin: 20px auto; /* center horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* FLOWER FRAME IMAGE */
+.frame-img {
+  width: 165%;
+  display: block;
+  margin: 0 auto; /* center image */
+  margin-right: 20px;
+}
+
+/* SISTER IMAGE (CENTER OVERLAY) */
+.sister-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* perfectly centered */
+  width: 70%;   /* scaled proportionally */
+  border-radius: 10px;
+}
+
+/* DATE */
+.date {
+
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+  margin: 20px 0;
+  margin-top: 100px;
+}
+
+.date h2 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.month {
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+/* DETAILS */
+.details, .reception {
+  margin-top: 15px;
+}
+
+/* MAP */
+.map-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.map-box {
+  width: 100%;
+  max-width: 500px;
+}
+
+iframe {
+  width: 100%;
+  height: 250px;
+  border: 0;
+  border-radius: 12px;
+}
+
+/* BUTTON */
+.directions-btn {
+  display: block;
+  margin-top: 15px;
+  padding: 12px;
+  background: #7c4dff;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.directions-btn:hover {
+  background: #5e35b1;
+  transform: scale(1.05);
+}
+
+/* CHECKIN */
+.checkin {
+  margin-top: 30px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #ff9eb5;
+  color: white;
+  font-size: 1rem;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .photo-frame {
+    width: 290px; /* slightly larger on mobile */
+  }
+  .sister-img {
+    width: 80%; /* scale proportionally */
+  }
+}
+
+
+</style>
+</head>
+
+<body>
+
+
+<div class="poster">
+
+  <p class="top-text">PLEASE JOIN US FOR THE CHRISTENING OF</p>
+
+  <h1 class="name">
+    Kiana <span>Briane</span>
+  </h1>
+
+  <!-- FRAME DESIGN -->
+  <div class="photo-frame">
+    <img src="images/r2.png" class="frame-img">
+    <img src="images/r1.png" class="sister-img">
+  </div>
+
+  <!-- DATE -->
+  <div class="date">
+    <span>Saturday</span>
+    <h2>23</h2>
+    <span>9:30 AM</span>
+  </div>
+
+  <p class="month">May 2026</p>
+
+  <!-- DETAILS -->
+  <div class="details">
+    <p>San Isidro de Labrador Parish Church</p>
+    <p>Talavera</p>
+  </div>
+
+  <div class="reception">
+    <p>Reception at:</p>
+    <p>11:00 AM</p>
+    <p>Villa Velmar Resort</p>
+    <p>Collado, Talavera</p>
+  </div>
+
+  <!-- MAP -->
+  <div class="map-section">
+    <div class="map-box">
+      <iframe
+        src="https://www.google.com/maps?q=15.6303773,120.9517573&z=17&output=embed"
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+
+  <a 
+    href="https://www.google.com/maps/dir/?api=1&destination=15.6303773,120.9517573"
+    target="_blank"
+    class="directions-btn">
+    🚗 Get Directions
+  </a>
+
+  <!-- CHECK IN -->
+  <div class="checkin">
+    <input type="text" id="name" placeholder="Enter your name">
+    <button onclick="submitName()">Check In</button>
+    <p id="message"></p>
+  </div>
+
+</div>
+
+<script>
+function submitName() {
+  const name = document.getElementById("name").value;
+
+  if (!name) {
+    alert("Enter your name first 💖");
+    return;
+  }
+
+  document.getElementById("message").innerText =
+    "Welcome, " + name + "! 🎉";
+
+  document.getElementById("name").value = ""; // clear input after check-in
+}
+</script>
+
+</body>
+</html>
