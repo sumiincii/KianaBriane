@@ -7,6 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -16,7 +20,8 @@ body {
 }
 
 .poster {
-  min-height: 100vh;
+  width: min(100%, 720px);
+  margin: 0 auto;
   padding: 20px 18px 40px;
   text-align: center;
 }
@@ -90,13 +95,13 @@ body {
 .details-card,
 .section-card,
 .message-wall {
-  max-width: 560px;
+  width: min(100%, 560px);
   margin: 22px auto;
   padding: 20px;
   border-radius: 26px;
-  background: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.9);
   backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.86);
+  border: 1px solid rgba(255,255,255,0.9);
   box-shadow: 0 18px 45px rgba(104, 36, 103, 0.09);
 }
 
@@ -190,29 +195,29 @@ iframe {
 }
 
 .gallery-scroll img,
-.guest-card img {
+.guest-card {
   border-radius: 20px;
   object-fit: cover;
 }
 
 .gallery-scroll img {
-  width: 70%;
-  max-width: 220px;
-  min-width: 220px;
+  width: 200px;
+  min-width: 200px;
   height: 280px;
 }
 
 .guest-gallery-grid {
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .guest-card {
+  flex: 1 1 180px;
   min-width: 180px;
-  width: calc(50% - 10px);
-  max-width: 240px;
-  background: rgba(255,255,255,0.78);
+  max-width: 260px;
+  background: rgba(255,255,255,0.92);
   border-radius: 20px;
-  padding: 12px;
+  padding: 16px;
   box-shadow: 0 10px 26px rgba(89, 22, 103, 0.12);
   display: flex;
   flex-direction: column;
@@ -370,6 +375,7 @@ button:hover,
 @media (max-width: 720px) {
   .date {
     flex-direction: column;
+    gap: 6px;
   }
 
   .photo-frame {
@@ -377,13 +383,19 @@ button:hover,
     max-width: 340px;
   }
 
+  .sister-img {
+    width: 82%;
+  }
+
   .guest-card {
     width: 100%;
+    max-width: 100%;
   }
 
   .gallery-scroll img {
-    min-width: 220px;
-    width: 220px;
+    min-width: 180px;
+    width: 180px;
+    height: 250px;
   }
 
   .count-summary {
@@ -392,6 +404,19 @@ button:hover,
 
   .directions-btn {
     width: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
+
+  .countdown,
+  .details-card,
+  .section-card,
+  .message-wall {
+    padding: 18px;
   }
 }
 </style>
@@ -477,19 +502,7 @@ button:hover,
   </a>
 
   <!-- GALLERY -->
-  <div class="gallery-section">
-    <h2 class="gallery-title">📸 Gallery</h2>
-    <div class="gallery-scroll">
-      <img src="images/1.jpg">
-      <img src="images/2.jpg">
-      <img src="images/3.jpg">
-      <img src="images/4.jpg">
-      <img src="images/5.jpg">
-      <img src="images/6.jpg">
-      <img src="images/7.jpg">
-      <img src="images/8.jpg">
-    </div>
-  </div>
+  
 
   <div class="section-card">
     <div class="section-title">🎟 Guest Check-in</div>
@@ -537,6 +550,20 @@ button:hover,
     <div class="message-list" id="messagesList"></div>
   </div>
 
+<div class="gallery-section">
+    <h2 class="gallery-title">📸 Gallery</h2>
+    <div class="gallery-scroll">
+      <img src="images/1.jpg">
+      <img src="images/2.jpg">
+      <img src="images/3.jpg">
+      <img src="images/4.jpg">
+      <img src="images/5.jpg">
+      <img src="images/6.jpg">
+      <img src="images/7.jpg">
+      <img src="images/8.jpg">
+    </div>
+  </div>
+  
 </div>
 
 <script type="module">
