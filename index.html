@@ -26,6 +26,178 @@ body {
   text-align: center;
 }
 
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(18, 11, 33, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.intro-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.98);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.intro-card {
+  width: min(100%, 520px);
+  border-radius: 28px;
+  padding: 32px 28px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.32);
+  box-shadow: 0 28px 80px rgba(0,0,0,0.25);
+  text-align: center;
+  color: #fff;
+}
+
+.intro-label {
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #f4d7f0;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.intro-card h2 {
+  font-size: 2.8rem;
+  margin: 0;
+  line-height: 1.05;
+  color: #fff;
+}
+
+.intro-subtext {
+  margin: 18px auto 24px;
+  max-width: 430px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.9);
+}
+
+.intro-card button {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  padding: 14px 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-in-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-0 { transition-delay: 0s; }
+.delay-1 { transition-delay: 0.08s; }
+.delay-2 { transition-delay: 0.16s; }
+.delay-3 { transition-delay: 0.24s; }
+.delay-4 { transition-delay: 0.32s; }
+.delay-5 { transition-delay: 0.40s; }
+.delay-6 { transition-delay: 0.48s; }
+.delay-7 { transition-delay: 0.56s; }
+
+.godparents-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(170px, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.godparent-group {
+  background: rgba(255,255,255,0.92);
+  border-radius: 20px;
+  padding: 16px;
+  border: 1px solid rgba(214, 162, 217, 0.45);
+}
+
+.group-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #5b2f5f;
+}
+
+.godparent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.godparent-list li {
+  color: #5b3c61;
+  font-size: 0.95rem;
+}
+
+.message-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.time-label {
+  color: #8d6b90;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.reaction-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.reaction-button {
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 228, 244, 0.95);
+  color: #5b2f5f;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.reaction-button:hover {
+  background: rgba(255, 199, 226, 1);
+}
+
+.reaction-count {
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .godparents-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intro-card {
+    padding: 28px 20px;
+  }
+}
+
 .top-text {
   font-size: 0.8rem;
   letter-spacing: 2px;
@@ -501,7 +673,7 @@ button:hover,
   <p class="month">May 2026</p>
 
   <!-- ⏳ COUNTDOWN -->
-  <div class="countdown">
+  <div class="countdown fade-in-section delay-0">
     <div class="countdown-title">⏳ Countdown to Baptism</div>
     <div class="timer">
       <div class="time-box"><div id="days">0</div>Days</div>
@@ -512,7 +684,7 @@ button:hover,
   </div>
 
   <!-- DETAILS -->
-  <div class="details-card">
+  <div class="details-card fade-in-section delay-1">
     <div class="details-title">Event Details</div>
 
     <div class="detail-item">
@@ -531,8 +703,44 @@ button:hover,
     </div>
   </div>
 
+  <div class="details-card fade-in-section delay-2">
+    <div class="details-title">Godparents</div>
+    <div class="godparents-grid">
+      <div class="godparent-group">
+        <div class="group-title">Male Sponsors</div>
+        <ul class="godparent-list">
+          <li>Male Sponsor 1</li>
+          <li>Male Sponsor 2</li>
+          <li>Male Sponsor 3</li>
+          <li>Male Sponsor 4</li>
+          <li>Male Sponsor 5</li>
+          <li>Male Sponsor 6</li>
+          <li>Male Sponsor 7</li>
+          <li>Male Sponsor 8</li>
+          <li>Male Sponsor 9</li>
+          <li>Male Sponsor 10</li>
+        </ul>
+      </div>
+      <div class="godparent-group">
+        <div class="group-title">Female Sponsors</div>
+        <ul class="godparent-list">
+          <li>Female Sponsor 1</li>
+          <li>Female Sponsor 2</li>
+          <li>Female Sponsor 3</li>
+          <li>Female Sponsor 4</li>
+          <li>Female Sponsor 5</li>
+          <li>Female Sponsor 6</li>
+          <li>Female Sponsor 7</li>
+          <li>Female Sponsor 8</li>
+          <li>Female Sponsor 9</li>
+          <li>Female Sponsor 10</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <!-- MAP -->
-  <div class="map-section">
+  <div class="map-section fade-in-section delay-3">
     <div class="map-box">
       <iframe src="https://www.google.com/maps?q=15.6303773,120.9517573&z=17&output=embed"></iframe>
     </div>
@@ -573,12 +781,12 @@ button:hover,
     <div class="status-pill" id="locationStatus">Arrival status will appear here</div>
   </div>
 
-  <div class="guest-gallery-section">
+  <div class="guest-gallery-section fade-in-section delay-4">
     <h2 class="guest-gallery-title">👥 Guests</h2>
     <div class="guest-gallery-grid" id="guestGallery"></div>
   </div>
 
-  <div class="section-card message-wall">
+  <div class="section-card message-wall fade-in-section delay-5">
     <div class="section-title">🎁 Leave a message for Kiana</div>
     <div class="form-row">
       <input type="text" id="messageName" placeholder="Your name">
@@ -589,7 +797,7 @@ button:hover,
     <div class="message-list" id="messagesList"></div>
   </div>
 
-<div class="gallery-section">
+<div class="gallery-section fade-in-section delay-7">
     <h2 class="gallery-title">📸 Gallery</h2>
     <div class="gallery-scroll">
       <img src="images/1.jpg">
@@ -608,7 +816,7 @@ button:hover,
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
-  import { getFirestore, collection, query, where, getDocs, addDoc, orderBy } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+  import { getFirestore, collection, query, where, getDocs, addDoc, orderBy, doc, updateDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAQ8DM16CDnhh51m0LiM4c2DoCXWhYDE4Q",
@@ -663,6 +871,72 @@ button:hover,
       gain.gain.exponentialRampToValueAtTime(0.02, start + 0.16);
       osc.start(start);
       osc.stop(start + 0.18);
+    });
+  }
+
+  function formatTimeAgo(timestamp) {
+    const now = Date.now();
+    const diff = Math.max(0, now - timestamp);
+    const minutes = Math.floor(diff / 60000);
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes} min${minutes === 1 ? '' : 's'} ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+    const days = Math.floor(hours / 24);
+    return `${days} day${days === 1 ? '' : 's'} ago`;
+  }
+
+  async function updateMessageReactions(messageId, type) {
+    const messageRef = doc(db, 'messages', messageId);
+    await updateDoc(messageRef, { [`reactions.${type}`]: increment(1) });
+  }
+
+  function createMessageItem(docSnapshot) {
+    const data = docSnapshot.data();
+    const reactions = data.reactions || { heart: 0, pray: 0, sparkle: 0 };
+    const item = document.createElement('div');
+    item.className = 'message-item';
+    item.innerHTML = `
+      <div class="message-top">
+        <strong>${data.name}</strong>
+        <span class="time-label">${formatTimeAgo(data.createdAt)}</span>
+      </div>
+      <p>${data.message}</p>
+      <div class="reaction-row">
+        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="heart">❤️ <span class="reaction-count">${reactions.heart || 0}</span></button>
+        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="pray">🙏 <span class="reaction-count">${reactions.pray || 0}</span></button>
+        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="sparkle">✨ <span class="reaction-count">${reactions.sparkle || 0}</span></button>
+      </div>
+    `;
+
+    item.querySelectorAll('.reaction-button').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const reactionType = button.dataset.reaction;
+        await updateMessageReactions(docSnapshot.id, reactionType);
+      });
+    });
+
+    return item;
+  }
+
+  function getIntroOverlay() {
+    const overlay = document.getElementById('introOverlay');
+    const button = document.getElementById('introButton');
+    const closeIntro = () => {
+      if (!overlay) return;
+      overlay.classList.add('hidden');
+      document.body.classList.remove('no-scroll');
+    };
+    if (button) button.addEventListener('click', closeIntro);
+    if (overlay) {
+      document.body.classList.add('no-scroll');
+      setTimeout(closeIntro, 5000);
+    }
+  }
+
+  function triggerFadeIn() {
+    document.querySelectorAll('.fade-in-section').forEach((section, index) => {
+      setTimeout(() => section.classList.add('visible'), index * 100);
     });
   }
 
@@ -795,34 +1069,27 @@ button:hover,
     await addDoc(collection(db, 'messages'), {
       name: nameValue,
       message: textValue,
+      reactions: { heart: 0, pray: 0, sparkle: 0 },
       createdAt: Date.now()
     });
 
     messageNameInput.value = '';
     guestMessageInput.value = '';
     messageStatus.innerText = 'Your message is posted. Thank you!';
-    await loadMessages();
   }
 
-  async function loadMessages() {
+  function setupMessageListener() {
     const messageQuery = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
-    const snapshot = await getDocs(messageQuery);
-    messagesList.innerHTML = '';
-
-    if (snapshot.empty) {
-      messagesList.innerHTML = '<div style="color:#714275;font-weight:700;">No messages yet. Be first to leave a note for baby!</div>';
-      return;
-    }
-
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      const item = document.createElement('div');
-      item.className = 'message-item';
-      item.innerHTML = `
-        <strong>${data.name}</strong>
-        <p>${data.message}</p>
-      `;
-      messagesList.appendChild(item);
+    onSnapshot(messageQuery, (snapshot) => {
+      messagesList.innerHTML = '';
+      if (snapshot.empty) {
+        messagesList.innerHTML = '<div style="color:#714275;font-weight:700;">No messages yet. Be first to leave a note for baby!</div>';
+        return;
+      }
+      snapshot.forEach((docSnapshot) => {
+        const item = createMessageItem(docSnapshot);
+        messagesList.appendChild(item);
+      });
     });
   }
 
@@ -831,7 +1098,9 @@ button:hover,
 
   loadCounts();
   loadGuestGallery();
-  loadMessages();
+  setupMessageListener();
+  getIntroOverlay();
+  window.addEventListener('load', triggerFadeIn);
 
   const x = setInterval(function() {
     const now = new Date().getTime();
