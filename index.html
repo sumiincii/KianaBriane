@@ -113,82 +113,6 @@ body {
   text-align: center;
 }
 
-/* ─── INTRO OVERLAY ─── */
-.intro-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: rgba(10,4,24,0.72);
-  backdrop-filter: blur(24px) saturate(1.4);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.intro-overlay.hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(0.97);
-}
-.intro-card {
-  width: min(100%, 500px);
-  background: rgba(255,255,255,0.14);
-  backdrop-filter: blur(32px) saturate(1.6);
-  border: 1px solid rgba(255,255,255,0.38);
-  border-radius: var(--radius-xl);
-  padding: 40px 32px;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.45);
-  color: #fff;
-}
-.intro-label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.65);
-  margin-bottom: 14px;
-}
-.intro-card h2 {
-  font-family: var(--font-display);
-  font-size: 3rem;
-  line-height: 1.1;
-  margin-bottom: 14px;
-  background: linear-gradient(135deg, #fff 30%, #f9a8d4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.intro-subtext {
-  font-size: 0.98rem;
-  line-height: 1.65;
-  color: rgba(255,255,255,0.8);
-  margin-bottom: 28px;
-  max-width: 360px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.intro-card button {
-  width: 100%;
-  max-width: 260px;
-  padding: 15px 0;
-  background: rgba(255,255,255,0.18);
-  border: 1px solid rgba(255,255,255,0.5);
-  border-radius: 999px;
-  color: #fff;
-  font-family: var(--font-body);
-  font-size: 0.96rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: background 0.2s, transform 0.15s;
-}
-.intro-card button:hover {
-  background: rgba(255,255,255,0.28);
-  transform: translateY(-1px);
-}
-
 /* ─── GLASS PANEL BASE ─── */
 .glass {
   background: rgba(255,255,255,0.22);
@@ -204,8 +128,9 @@ body {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: opacity, transform;
 }
-.fade-in-section.visible { opacity: 1; transform: translateY(0); }
+.fade-in-section.visible { opacity: 1; transform: translateY(0); will-change: auto; }
 .delay-0 { transition-delay: 0s; }
 .delay-1 { transition-delay: 0.1s; }
 .delay-2 { transition-delay: 0.2s; }
@@ -768,7 +693,7 @@ button:active { transform: scale(0.98); }
       <div class="godparent-group">
         <div class="group-title">Male</div>
         <ul class="godparent-list">
-          <li>AGUSTIN, REXY</li>
+          <li>AGUSTIN, Rexy</li>
           <li>BACLIG, James</li>
           <li>DANCEL, July</li>
           <li>SAMBRANO, Jerry</li>
@@ -967,24 +892,17 @@ button:active { transform: scale(0.98); }
     return item;
   }
 
-  function getIntroOverlay() {
-    const overlay = document.getElementById('introOverlay');
-    const button = document.getElementById('introButton');
-    const closeIntro = () => {
-      if (!overlay) return;
-      overlay.classList.add('hidden');
-      document.body.classList.remove('no-scroll');
-    };
-    if (button) button.addEventListener('click', closeIntro);
-    if (overlay) {
-      document.body.classList.add('no-scroll');
-      setTimeout(closeIntro, 5000);
-    }
-  }
-
   function triggerFadeIn() {
-    document.querySelectorAll('.fade-in-section').forEach((section, index) => {
-      setTimeout(() => section.classList.add('visible'), index * 100);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-in-section').forEach((section) => {
+      observer.observe(section);
     });
   }
 
@@ -1080,7 +998,6 @@ button:active { transform: scale(0.98); }
   loadCounts();
   loadGuestGallery();
   setupMessageListener();
-  getIntroOverlay();
   window.addEventListener('load', triggerFadeIn);
 
   const x = setInterval(function() {
