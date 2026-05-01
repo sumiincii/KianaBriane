@@ -636,10 +636,55 @@ button:active { transform: scale(0.98); }
   .gallery-scroll img { min-width: 165px; width: 165px; height: 240px; }
   .guest-card { width: 100%; max-width: 100%; flex: 1 1 100%; }
 }
+/* 📁 FILE: index.html */
+
+.news-ticker {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 9999;
+
+  background: rgba(255, 182, 193, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+.ticker-track {
+  position: relative;
+  white-space: nowrap;
+  font-weight: 500;
+  color: #d63384;
+  font-family: 'Montserrat', sans-serif;
+
+  /* start off screen right */
+  transform: translateX(100%);
+  animation: slideOnce 12s linear forwards;
+}
+
+/* ONE-TIME animation */
+@keyframes slideOnce {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+  body {
+  padding-top: 40px;
+}
+}
 </style>
 </head>
 <body>
-
+<!-- 📁 FILE: index.html -->
+<div class="news-ticker">
+  <div class="ticker-track" id="ticker">
+    🌸 Developed by Kuya Vincent 🌸 Welcome to our special day 🌸
+  </div>
+</div>
 <!-- BG -->
 <div class="bg-canvas">
   <div class="bg-blob blob1"></div>
@@ -1065,7 +1110,7 @@ button:active { transform: scale(0.98); }
 
     const result = await Swal.fire({
       title: 'Guest list access',
-      text: 'Enter the private password to view the guest list.',
+      text: 'Kung gusto mo makita hingi ka password kay kuya vincent',
       input: 'password',
       inputPlaceholder: 'Password',
       showCancelButton: true,
@@ -1074,11 +1119,11 @@ button:active { transform: scale(0.98); }
       allowOutsideClick: false,
       preConfirm: (value) => {
         if (!value) {
-          Swal.showValidationMessage('Password is required');
+          Swal.showValidationMessage('lagyan mo kaya?');
           return false;
         }
         if (value !== guestListPassword) {
-          Swal.showValidationMessage('Incorrect password');
+          Swal.showValidationMessage('mali ka naman e, ulitin mo');
           return false;
         }
         return true;
