@@ -258,26 +258,6 @@ textarea {
   resize: vertical;
 }
 
-.file-input {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.file-input label {
-  padding: 12px 16px;
-  border-radius: 18px;
-  background: rgba(252, 154, 194, 0.18);
-  border: 1px dashed rgba(252, 154, 194, 0.7);
-  cursor: pointer;
-  color: #6a3b67;
-  font-weight: 700;
-}
-
-.file-input input {
-  display: none;
-}
-
 button,
 .secondary-btn {
   width: 100%;
@@ -514,10 +494,6 @@ button:hover,
         <option value="3">3 guests</option>
         <option value="4">4 guests</option>
       </select>
-      <div class="file-input">
-        <label for="photo">Upload photo</label>
-        <input type="file" id="photo" accept="image/*">
-      </div>
     </div>
     <button id="checkinButton">Check In</button>
     <p id="alertText">Your arrival status can be detected when you check in.</p>
