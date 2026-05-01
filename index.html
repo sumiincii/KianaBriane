@@ -517,6 +517,35 @@ button:active { transform: scale(0.98); }
   flex-wrap: wrap;
   gap: 10px;
 }
+.hidden {
+  display: none !important;
+}
+.gallery-note {
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.32);
+  border: 1px solid rgba(255,255,255,0.55);
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+}
+.gallery-note p {
+  margin-bottom: 10px;
+  font-size: 0.92rem;
+}
+.secondary-btn {
+  width: auto;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.38);
+  color: var(--text-primary);
+  border: 1px solid rgba(255,255,255,0.65);
+}
+.page-credit {
+  margin: 18px auto 0;
+  max-width: 560px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  letter-spacing: 0.4px;
+}
 .guest-card {
   flex: 1 1 180px;
   min-width: 160px;
@@ -739,10 +768,12 @@ button:active { transform: scale(0.98); }
     <div class="form-row">
       <input type="text" id="name" placeholder="Enter your name">
       <select id="guests">
+        <option value="" disabled selected>Select guest count</option>
         <option value="1">1 guest</option>
         <option value="2">2 guests</option>
         <option value="3">3 guests</option>
         <option value="4">4 guests</option>
+        <option value="5">5 guests</option>
       </select>
     </div>
     <button id="checkinButton" style="margin-top:14px;">Check In</button>
@@ -763,7 +794,11 @@ button:active { transform: scale(0.98); }
   <!-- GUEST GALLERY -->
   <div class="guest-gallery-section fade-in-section delay-5">
     <h2 class="guest-gallery-title">👥 Guests</h2>
-    <div class="guest-gallery-grid" id="guestGallery"></div>
+    <div class="gallery-note" id="guestGalleryPrompt">
+      <p>Guest names are private and only visible to kuya vincent.</p>
+      <button id="viewGuestListBtn" class="secondary-btn">View guest list</button>
+    </div>
+    <div class="guest-gallery-grid hidden" id="guestGallery"></div>
   </div>
 
   <!-- MESSAGE WALL -->
@@ -773,10 +808,12 @@ button:active { transform: scale(0.98); }
       <input type="text" id="messageName" placeholder="Your name">
       <textarea id="guestMessage" placeholder="Leave a message..."></textarea>
     </div>
-    <button id="messageButton" style="margin-top:14px;">Send Message</button>
+    <button id="messageButton" style="margin-top:14px;">Post a Message</button>
     <p id="messageStatus"></p>
     <div class="message-list" id="messagesList"></div>
   </div>
+
+  <p class="page-credit">Designed and developed by Vincent.</p>
 
   <!-- GALLERY -->
   <div class="gallery-section fade-in-section delay-7">
@@ -791,6 +828,7 @@ button:active { transform: scale(0.98); }
 
 </div><!-- /poster -->
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
@@ -809,6 +847,7 @@ button:active { transform: scale(0.98); }
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
+  const guestListPassword = "admin_vincent"; // Set the guest list password here
 
   const eventDate = new Date("May 23, 2026 09:30:00").getTime();
   const eventLocation = { lat: 15.6303773, lng: 120.9517573 };
@@ -821,6 +860,8 @@ button:active { transform: scale(0.98); }
   const totalNamesElement = document.getElementById("totalNames");
   const locationStatus = document.getElementById("locationStatus");
   const guestGallery = document.getElementById("guestGallery");
+  const guestGalleryPrompt = document.getElementById("guestGalleryPrompt");
+  const viewGuestListBtn = document.getElementById("viewGuestListBtn");
   const messagesList = document.getElementById("messagesList");
   const messageNameInput = document.getElementById("messageName");
   const guestMessageInput = document.getElementById("guestMessage");
@@ -926,12 +967,23 @@ button:active { transform: scale(0.98); }
 
   async function submitCheckin() {
     const nameValue = nameInput.value.trim();
-    const guestsCount = parseInt(guestsInput.value, 10) || 1;
-    if (!nameValue) { alertText.innerText = 'Please enter your name before checking in.'; return; }
+    const guestsValue = guestsInput.value;
+    if (!nameValue) {
+      await Swal.fire({ icon: 'warning', title: 'Name required', text: 'Please enter your name before checking in.', toast: true, position: 'top', timer: 2500, showConfirmButton: false });
+      return;
+    }
+    if (!guestsValue) {
+      await Swal.fire({ icon: 'warning', title: 'Guest count required', text: 'Please select how many guests are attending, including yourself.', toast: true, position: 'top', timer: 2800, showConfirmButton: false });
+      return;
+    }
+    const guestsCount = parseInt(guestsValue, 10);
     alertText.innerText = 'Checking for duplicates...';
     const attendeeQuery = query(collection(db, 'attendees'), where('nameLower', '==', nameValue.toLowerCase()));
     const duplicateSnapshot = await getDocs(attendeeQuery);
-    if (!duplicateSnapshot.empty) { alertText.innerText = 'This name has already checked in. Please use the registered name only.'; return; }
+    if (!duplicateSnapshot.empty) {
+      await Swal.fire({ icon: 'error', title: 'Already checked in', text: 'This name has already checked in. Please use the registered name only.', toast: true, position: 'top', timer: 3000, showConfirmButton: false });
+      return;
+    }
     const location = await detectArrival();
     const locationText = location
       ? location.arrived ? `Arrived at location • ${Math.round(location.distanceMeters)}m away` : `Near location • ${Math.round(location.distanceMeters)}m away`
@@ -942,10 +994,12 @@ button:active { transform: scale(0.98); }
       arrivalStatus: locationText, distanceMeters: location?.distanceMeters || null, createdAt: Date.now()
     });
     nameInput.value = '';
+    guestsInput.value = '';
     alertText.innerText = 'Thank you for checking in! Your guest count has been updated.';
+    await Swal.fire({ icon: 'success', title: 'Checked In', text: 'Your attendance has been recorded.', toast: true, position: 'top', timer: 2500, showConfirmButton: false });
     playCheckinMusic();
     await loadCounts();
-    await loadGuestGallery();
+    await loadGuestGallery(false);
   }
 
   async function loadCounts() {
@@ -956,10 +1010,17 @@ button:active { transform: scale(0.98); }
     totalNamesElement.innerText = snapshot.size;
   }
 
-  async function loadGuestGallery() {
+  async function loadGuestGallery(showPrivate = false) {
+    if (!showPrivate) {
+      guestGallery.classList.add('hidden');
+      if (guestGalleryPrompt) guestGalleryPrompt.classList.remove('hidden');
+      return;
+    }
     const galleryQuery = query(collection(db, 'attendees'), orderBy('createdAt', 'desc'));
     const snapshot = await getDocs(galleryQuery);
     guestGallery.innerHTML = '';
+    guestGallery.classList.remove('hidden');
+    if (guestGalleryPrompt) guestGalleryPrompt.classList.add('hidden');
     if (snapshot.empty) { guestGallery.innerHTML = '<div style="color:#7c3aed;font-weight:600;font-size:0.9rem;">No guest check-ins yet.</div>'; return; }
     snapshot.forEach((doc) => {
       const data = doc.data();
@@ -973,7 +1034,10 @@ button:active { transform: scale(0.98); }
   async function submitMessage() {
     const nameValue = messageNameInput.value.trim();
     const textValue = guestMessageInput.value.trim();
-    if (!nameValue || !textValue) { messageStatus.innerText = 'Please add your name and a message before sending.'; return; }
+    if (!nameValue || !textValue) {
+      await Swal.fire({ icon: 'warning', title: 'Incomplete', text: 'Please add your name and a message before sending.', toast: true, position: 'top', timer: 2500, showConfirmButton: false });
+      return;
+    }
     await addDoc(collection(db, 'messages'), {
       name: nameValue, message: textValue,
       reactions: { heart: 0, pray: 0, sparkle: 0 }, createdAt: Date.now()
@@ -981,6 +1045,7 @@ button:active { transform: scale(0.98); }
     messageNameInput.value = '';
     guestMessageInput.value = '';
     messageStatus.innerText = 'Your message is posted. Thank you!';
+    await Swal.fire({ icon: 'success', title: 'Message posted', text: 'Your note is now part of the memory wall.', toast: true, position: 'top', timer: 2500, showConfirmButton: false });
   }
 
   function setupMessageListener() {
@@ -992,8 +1057,43 @@ button:active { transform: scale(0.98); }
     });
   }
 
+  async function unlockGuestList() {
+    if (guestListPassword === 'REPLACE_WITH_SECRET') {
+      await Swal.fire({ icon: 'info', title: 'Password not set', text: 'Please update the guest list password in the code before using this feature.', confirmButtonText: 'OK' });
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: 'Guest list access',
+      text: 'Enter the private password to view the guest list.',
+      input: 'password',
+      inputPlaceholder: 'Password',
+      showCancelButton: true,
+      confirmButtonText: 'Unlock',
+      inputAttributes: { autocapitalize: 'off', autocorrect: 'off' },
+      allowOutsideClick: false,
+      preConfirm: (value) => {
+        if (!value) {
+          Swal.showValidationMessage('Password is required');
+          return false;
+        }
+        if (value !== guestListPassword) {
+          Swal.showValidationMessage('Incorrect password');
+          return false;
+        }
+        return true;
+      }
+    });
+
+    if (result.isConfirmed) {
+      await Swal.fire({ icon: 'success', title: 'Access granted', toast: true, position: 'top', timer: 2200, showConfirmButton: false });
+      await loadGuestGallery(true);
+    }
+  }
+
   checkinButton.addEventListener('click', submitCheckin);
   messageButton.addEventListener('click', submitMessage);
+  if (viewGuestListBtn) viewGuestListBtn.addEventListener('click', unlockGuestList);
 
   loadCounts();
   loadGuestGallery();

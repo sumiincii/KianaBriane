@@ -4,326 +4,682 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kiana Briane</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --glass-bg: rgba(255,255,255,0.18);
+  --glass-bg-strong: rgba(255,255,255,0.32);
+  --glass-border: rgba(255,255,255,0.52);
+  --glass-border-subtle: rgba(255,255,255,0.28);
+  --glass-shadow: 0 8px 32px rgba(180,100,200,0.13), 0 1.5px 8px rgba(180,100,200,0.08);
+  --glass-shadow-lg: 0 24px 60px rgba(140,60,180,0.18), 0 4px 16px rgba(140,60,180,0.10);
+  --accent-1: #e879b0;
+  --accent-2: #b06ae9;
+  --accent-3: #f9a8d4;
+  --text-primary: #1a0a2e;
+  --text-secondary: rgba(26,10,46,0.65);
+  --text-tertiary: rgba(26,10,46,0.42);
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 36px;
+}
+
+html { scroll-behavior: smooth; }
+
 body {
-  margin: 0;
-  font-family: 'Playfair Display', serif;
-}
-
-.poster {
   min-height: 100vh;
-  padding: 20px;
-  text-align: center;
-  color: #000;
-  background: linear-gradient(to bottom, #f8f8f8, #f5c6d6, #cba6f7);
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: #f0e8f8;
+  overflow-x: hidden;
 }
 
-/* TITLE */
-.top-text {
-  font-size: 1rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+/* ─── ANIMATED BACKGROUND ─── */
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
 }
 
-.name {
-  font-family: 'Great Vibes', cursive;
-  font-size: 2.8rem;
-  margin: 10px 0;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-}
-
-/* FRAME */
-.photo-frame {
-  position: relative;
-  width: 450px;
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.frame-img {
-  width: 165%;
-  display: block;
-  margin-right: 20px;
-}
-
-.sister-img {
+.bg-blob {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%;
-  border-radius: 10px;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.60;
+  animation: drift linear infinite;
 }
 
-/* DATE */
-.date {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  align-items: center;
-  margin: 20px 0;
-  margin-top: 100px;
+.blob1 { width: 600px; height: 600px; background: radial-gradient(circle, #f472b6, #e879f9); top: -15%; left: -10%; animation-duration: 28s; }
+.blob2 { width: 500px; height: 500px; background: radial-gradient(circle, #a78bfa, #818cf8); top: 30%; right: -12%; animation-duration: 34s; animation-delay: -8s; }
+.blob3 { width: 420px; height: 420px; background: radial-gradient(circle, #fb7185, #f43f5e); bottom: 5%; left: 15%; animation-duration: 22s; animation-delay: -14s; }
+.blob4 { width: 350px; height: 350px; background: radial-gradient(circle, #e0abff, #c084fc); top: 60%; left: 40%; animation-duration: 38s; animation-delay: -5s; }
+
+@keyframes drift {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  25% { transform: translate(40px,-30px) scale(1.06); }
+  50% { transform: translate(-20px,50px) scale(0.96); }
+  75% { transform: translate(30px,20px) scale(1.04); }
 }
 
-.date h2 {
-  font-size: 2.5rem;
-  margin: 0;
-}
-
-.month {
-  font-weight: bold;
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-}
-
-/* =========================
-   ⏳ COUNTDOWN TIMER
-   ========================= */
-.countdown {
-  max-width: 500px;
-  margin: 25px auto;
-  padding: 15px;
-  background: rgba(255,255,255,0.5);
-  backdrop-filter: blur(8px);
-  border-radius: 15px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-}
-
-.countdown-title {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
-.timer {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  font-weight: bold;
-}
-
-.time-box {
-  background: rgba(255, 158, 181, 0.3);
-  padding: 10px;
-  border-radius: 10px;
-  min-width: 60px;
-}
-
-/* DETAILS CARD */
-.details-card {
-  max-width: 500px;
-  margin: 30px auto;
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(8px);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-.details-title {
-  font-size: 1.3rem;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
-
-.detail-item {
-  margin: 10px 0;
-  font-size: 1rem;
-}
-
-.detail-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 3px;
-  color: #333;
-}
-
-/* MAP */
-.map-section {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.map-box {
-  width: 100%;
-  max-width: 500px;
-}
-
-iframe {
-  width: 100%;
-  height: 250px;
-  border: 0;
-  border-radius: 12px;
-}
-
-/* BUTTON */
-.directions-btn {
-  display: block;
-  margin-top: 15px;
-  padding: 14px;
-  border-radius: 14px;
-  background: rgba(255, 158, 181, 0.4);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.4);
-  color: #5a2a3a;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-/* GALLERY */
-.gallery-section {
-  margin-top: 40px;
-}
-
-.gallery-title {
-  font-size: 1.3rem;
-  margin-bottom: 15px;
-}
-
-.gallery-scroll {
-  display: flex;
-  overflow-x: auto;
-  gap: 12px;
-  padding: 10px;
-}
-
-.gallery-scroll img {
-  width: 70%;
-  max-width: 220px;
-  height: 280px;
-  object-fit: cover;
-  border-radius: 15px;
-}
-
-/* CHECKIN */
-.checkin {
-  margin-top: 30px;
-}
-
-input {
-  width: 80%;
-  padding: 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.4);
-  backdrop-filter: blur(10px);
-}
-
-button {
-  width: 100%;
-  margin-top: 10px;
-  padding: 14px;
-  border-radius: 14px;
-  border: none;
-  background: rgba(255, 158, 181, 0.4);
-  backdrop-filter: blur(10px);
-  color: #5a2a3a;
-  font-weight: bold;
-}
-
-/* =========================
-   🌸 PETALS (FIXED LAYER)
-   ========================= */
+/* ─── PETALS ─── */
 .petals {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 999;
+  z-index: 1;
 }
-
 .petal {
   position: absolute;
   top: -10px;
-  width: 12px;
-  height: 12px;
-  background: pink;
+  width: 10px;
+  height: 10px;
   border-radius: 50% 50% 50% 0;
-  opacity: 0.7;
-  transform: rotate(45deg);
-  animation: fall linear infinite;
+  opacity: 0;
+  animation: petalfall linear infinite;
+}
+.petal:nth-child(1)  { left:5%;  background:#f9a8d4; animation-duration:12s; animation-delay:0s; }
+.petal:nth-child(2)  { left:15%; background:#e879b0; animation-duration:16s; animation-delay:-3s; }
+.petal:nth-child(3)  { left:25%; background:#d8b4fe; animation-duration:10s; animation-delay:-6s; }
+.petal:nth-child(4)  { left:35%; background:#f9a8d4; animation-duration:18s; animation-delay:-1s; }
+.petal:nth-child(5)  { left:45%; background:#c084fc; animation-duration:13s; animation-delay:-9s; }
+.petal:nth-child(6)  { left:55%; background:#f472b6; animation-duration:15s; animation-delay:-4s; }
+.petal:nth-child(7)  { left:65%; background:#e879b0; animation-duration:11s; animation-delay:-7s; }
+.petal:nth-child(8)  { left:75%; background:#ddd6fe; animation-duration:17s; animation-delay:-2s; }
+.petal:nth-child(9)  { left:85%; background:#f9a8d4; animation-duration:14s; animation-delay:-11s; }
+.petal:nth-child(10) { left:93%; background:#c084fc; animation-duration:19s; animation-delay:-5s; }
+
+@keyframes petalfall {
+  0%   { transform: translateY(-10px) rotate(0deg);   opacity: 0; }
+  8%   { opacity: 0.75; }
+  92%  { opacity: 0.55; }
+  100% { transform: translateY(110vh) rotate(420deg); opacity: 0; }
 }
 
-@keyframes fall {
-  0% {
-    transform: translateY(-10vh) rotate(0deg);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  100% {
-    transform: translateY(110vh) rotate(360deg);
-    opacity: 0;
-  }
+/* ─── LAYOUT ─── */
+.poster {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 680px);
+  margin: 0 auto;
+  padding: 28px 18px 60px;
+  text-align: center;
 }
 
-/* different speeds */
-.p1 { left: 5%; animation-duration: 10s; }
-.p2 { left: 15%; animation-duration: 14s; }
-.p3 { left: 25%; animation-duration: 12s; }
-.p4 { left: 35%; animation-duration: 16s; }
-.p5 { left: 45%; animation-duration: 11s; }
-.p6 { left: 55%; animation-duration: 15s; }
-.p7 { left: 65%; animation-duration: 13s; }
-.p8 { left: 75%; animation-duration: 17s; }
-.p9 { left: 85%; animation-duration: 12s; }
-.p10 { left: 95%; animation-duration: 18s; }
+/* ─── GLASS PANEL BASE ─── */
+.glass {
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border: 1px solid rgba(255,255,255,0.48);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.55);
+}
 
-/* MOBILE */
-@media (max-width: 600px) {
-  .photo-frame {
-    width: 290px;
-  }
-  .sister-img {
-    width: 80%;
-  }
+/* ─── FADE IN ─── */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: opacity, transform;
+}
+.fade-in-section.visible { opacity: 1; transform: translateY(0); will-change: auto; }
+.delay-0 { transition-delay: 0s; }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+.delay-7 { transition-delay: 0.7s; }
+
+/* ─── HEADER ─── */
+.top-text {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  margin-top: 16px;
+}
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 10vw, 5rem);
+  line-height: 1.05;
+  background: linear-gradient(135deg, #6b21a8 0%, #be185d 55%, #9333ea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+.name span { display: block; }
+
+/* ─── PHOTO FRAME ─── */
+.photo-frame {
+  position: relative;
+  width: min(92%, 400px);
+  margin: 28px auto 0;
+}
+.frame-img {
+  width: 100%;
+  display: block;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 70px rgba(120,40,160,0.22);
+}
+.sister-img {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 74%;
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.22), 0 0 0 3px rgba(255,255,255,0.6);
+}
+
+/* ─── DATE BADGE ─── */
+.date-section {
+  margin-top: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+.date-glass {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 28px;
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.55);
+  border-radius: 999px;
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.date-glass .day-num {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  line-height: 1;
+  color: #6b21a8;
+}
+.date-glass .day-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(107,33,168,0.25);
+}
+.date-glass .day-meta {
+  text-align: left;
+}
+.date-glass .day-meta .weekday {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.date-glass .day-meta .time-str {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.month-tag {
+  margin-top: 10px;
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ─── SECTIONS ─── */
+.countdown,
+.details-card,
+.section-card,
+.message-wall {
+  width: min(100%, 560px);
+  margin: 20px auto;
+  padding: 24px 22px;
+}
+
+.countdown-title,
+.details-title,
+.section-title,
+.gallery-title,
+.guest-gallery-title,
+.message-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 18px;
+  letter-spacing: 0.2px;
+}
+
+/* ─── COUNTDOWN TIMER ─── */
+.timer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.time-box {
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  min-width: 72px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+}
+.time-box div {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--text-primary);
+  letter-spacing: 0;
+  text-transform: none;
+  margin-bottom: 2px;
+}
+
+/* ─── DETAIL ITEMS ─── */
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.4);
+  text-align: left;
+}
+.detail-item:last-child { border-bottom: none; }
+.detail-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.45);
+  border: 1px solid rgba(255,255,255,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  backdrop-filter: blur(8px);
+}
+.detail-text { flex: 1; }
+.detail-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 3px;
+}
+.detail-value {
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+/* ─── GODPARENTS ─── */
+.godparents-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 4px;
+}
+.godparent-group {
+  background: rgba(255,255,255,0.32);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.55);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.65);
+}
+.group-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin-bottom: 12px;
+}
+.godparent-list { list-style: none; display: grid; gap: 7px; }
+.godparent-list li {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  padding: 5px 10px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* ─── MAP ─── */
+.map-section {
+  width: min(100%, 560px);
+  margin: 20px auto;
+}
+.map-box {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--glass-shadow-lg);
+  border: 1px solid rgba(255,255,255,0.5);
+}
+iframe { width: 100%; min-height: 260px; border: 0; display: block; }
+
+.directions-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 16px auto 0;
+  padding: 15px 28px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.55);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.7);
+  transition: background 0.2s, transform 0.15s;
+}
+.directions-btn:hover {
+  background: rgba(255,255,255,0.38);
+  transform: translateY(-1px);
+}
+
+/* ─── FORM ─── */
+.form-row { display: grid; gap: 12px; }
+input, select, textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(12px);
+  font-family: var(--font-body);
+  font-size: 0.97rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  -webkit-appearance: none;
+}
+input::placeholder, textarea::placeholder { color: var(--text-tertiary); }
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(124,58,237,0.55);
+  background: rgba(255,255,255,0.5);
+}
+textarea { min-height: 96px; resize: vertical; }
+
+button {
+  width: 100%;
+  padding: 15px 18px;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, rgba(232,121,176,0.72), rgba(167,106,233,0.72));
+  backdrop-filter: blur(12px);
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.97rem;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(168,85,199,0.28), inset 0 1px 0 rgba(255,255,255,0.35);
+  transition: transform 0.15s, box-shadow 0.2s;
+  letter-spacing: 0.3px;
+}
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(168,85,199,0.38), inset 0 1px 0 rgba(255,255,255,0.4);
+}
+button:active { transform: scale(0.98); }
+
+/* ─── STATUS & COUNT ─── */
+#alertText, #messageStatus {
+  margin-top: 12px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.35);
+  border: 1px solid rgba(255,255,255,0.55);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-top: 14px;
+  backdrop-filter: blur(8px);
+}
+.count-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+.summary-card {
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.32);
+  border: 1px solid rgba(255,255,255,0.55);
+  text-align: left;
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.summary-card strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: #6b21a8;
+  line-height: 1;
+}
+.summary-card span {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* ─── GUEST GALLERY ─── */
+.guest-gallery-section {
+  width: min(100%, 560px);
+  margin: 20px auto;
+}
+.guest-gallery-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  text-align: left;
+  padding: 0 2px;
+}
+.guest-gallery-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.hidden {
+  display: none !important;
+}
+.gallery-note {
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.32);
+  border: 1px solid rgba(255,255,255,0.55);
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+}
+.gallery-note p {
+  margin-bottom: 10px;
+  font-size: 0.92rem;
+}
+.secondary-btn {
+  width: auto;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.38);
+  color: var(--text-primary);
+  border: 1px solid rgba(255,255,255,0.65);
+}
+.page-credit {
+  margin: 18px auto 0;
+  max-width: 560px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  letter-spacing: 0.4px;
+}
+.guest-card {
+  flex: 1 1 180px;
+  min-width: 160px;
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.55);
+}
+.guest-card-title { font-weight: 600; color: var(--text-primary); font-size: 0.95rem; margin-bottom: 4px; }
+.guest-card-meta { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4; }
+
+/* ─── MESSAGES ─── */
+.message-list { display: grid; gap: 10px; margin-top: 16px; }
+.message-item {
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.28);
+  border: 1px solid rgba(255,255,255,0.5);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+  text-align: left;
+}
+.message-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.message-item strong { font-weight: 600; color: var(--text-primary); font-size: 0.95rem; }
+.time-label { font-size: 0.75rem; font-weight: 600; color: var(--text-tertiary); white-space: nowrap; }
+.message-item p { color: var(--text-secondary); font-size: 0.93rem; line-height: 1.55; margin: 0; }
+
+/* ─── REACTIONS ─── */
+.reaction-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.reaction-button {
+  border: 1px solid rgba(255,255,255,0.55);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.32);
+  backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  padding: 7px 14px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  width: auto;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  transition: background 0.15s, transform 0.1s;
+}
+.reaction-button:hover { background: rgba(255,255,255,0.48); transform: scale(1.04); }
+.reaction-count { font-weight: 700; font-size: 0.82rem; }
+
+/* ─── GALLERY ─── */
+.gallery-section {
+  width: min(100%, 560px);
+  margin: 20px auto;
+}
+.gallery-title { font-family: var(--font-display); font-size: 1.25rem; color: var(--text-primary); margin-bottom: 14px; text-align: left; }
+.gallery-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.gallery-scroll::-webkit-scrollbar { display: none; }
+.gallery-scroll img {
+  width: 200px;
+  min-width: 200px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1.5px solid rgba(255,255,255,0.55);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 560px) {
+  .godparents-grid { grid-template-columns: 1fr; }
+  .count-summary { grid-template-columns: 1fr; }
+  .date-glass { gap: 12px; padding: 12px 20px; }
+  .date-glass .day-num { font-size: 2.2rem; }
+  .gallery-scroll img { min-width: 165px; width: 165px; height: 240px; }
+  .guest-card { width: 100%; max-width: 100%; flex: 1 1 100%; }
 }
 </style>
 </head>
-
 <body>
 
-    <!-- 🌸 PETALS LAYER -->
+<!-- BG -->
+<div class="bg-canvas">
+  <div class="bg-blob blob1"></div>
+  <div class="bg-blob blob2"></div>
+  <div class="bg-blob blob3"></div>
+  <div class="bg-blob blob4"></div>
+</div>
+
+<!-- PETALS -->
 <div class="petals">
-  <span class="petal p1"></span>
-  <span class="petal p2"></span>
-  <span class="petal p3"></span>
-  <span class="petal p4"></span>
-  <span class="petal p5"></span>
-  <span class="petal p6"></span>
-  <span class="petal p7"></span>
-  <span class="petal p8"></span>
-  <span class="petal p9"></span>
-  <span class="petal p10"></span>
+  <span class="petal"></span><span class="petal"></span><span class="petal"></span>
+  <span class="petal"></span><span class="petal"></span><span class="petal"></span>
+  <span class="petal"></span><span class="petal"></span><span class="petal"></span>
+  <span class="petal"></span>
 </div>
 
 <div class="poster">
 
-  <p class="top-text">PLEASE JOIN US FOR THE CHRISTENING OF</p>
-
+  <p class="top-text">Please join us for the christening of</p>
   <h1 class="name">Kiana <span>Briane</span></h1>
 
   <div class="photo-frame">
-    <img src="images/r2.png" class="frame-img">
-    <img src="images/r1.png" class="sister-img">
+    <img src="images/r2.png" class="frame-img" alt="">
+    <img src="images/r1.png" class="sister-img" alt="">
   </div>
 
-  <div class="date">
-    <span>Saturday</span>
-    <h2>23</h2>
-    <span>9:30 AM</span>
+  <div class="date-section">
+    <div class="date-glass">
+      <div class="day-num">23</div>
+      <div class="day-divider"></div>
+      <div class="day-meta">
+        <div class="weekday">Saturday</div>
+        <div class="time-str">9:30 AM</div>
+      </div>
+    </div>
   </div>
+  <div class="month-tag">May 2026</div>
 
-  <p class="month">May 2026</p>
-
-  <!-- ⏳ COUNTDOWN -->
-  <div class="countdown">
+  <!-- COUNTDOWN -->
+  <div class="countdown glass fade-in-section delay-0" style="margin-top:28px;">
     <div class="countdown-title">⏳ Countdown to Baptism</div>
     <div class="timer">
       <div class="time-box"><div id="days">0</div>Days</div>
@@ -333,102 +689,447 @@ button {
     </div>
   </div>
 
-  <!-- DETAILS -->
-  <div class="details-card">
+  <!-- EVENT DETAILS -->
+  <div class="details-card glass fade-in-section delay-1">
     <div class="details-title">Event Details</div>
-
     <div class="detail-item">
-      <span class="detail-label">📍 Ceremony</span>
-      San Isidro de Labrador Parish Church
+      <div class="detail-icon">📍</div>
+      <div class="detail-text">
+        <div class="detail-label">Ceremony</div>
+        <div class="detail-value">San Isidro de Labrador Parish Church</div>
+      </div>
     </div>
-
     <div class="detail-item">
-      <span class="detail-label">🎉 Reception</span>
-      Villa Velmar Resort
+      <div class="detail-icon">🎉</div>
+      <div class="detail-text">
+        <div class="detail-label">Reception</div>
+        <div class="detail-value">Villa Velmar Resort</div>
+      </div>
     </div>
-
     <div class="detail-item">
-      <span class="detail-label">🕒 Time</span>
-      11:00 AM
+      <div class="detail-icon">🕒</div>
+      <div class="detail-text">
+        <div class="detail-label">Time</div>
+        <div class="detail-value">11:00 AM</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GODPARENTS -->
+  <div class="details-card glass fade-in-section delay-2">
+    <div class="details-title">GODPARENTS</div>
+    <div class="godparents-grid">
+      <div class="godparent-group">
+        <div class="group-title">Male</div>
+        <ul class="godparent-list">
+          <li>AGUSTIN, Rexy</li>
+          <li>BACLIG, James</li>
+          <li>DANCEL, July</li>
+          <li>SAMBRANO, Jerry</li>
+          <li>SAPIDA, Jon Jon</li>
+          <li>VALDEZ, Rommel</li>
+          <li>VERANO, Norman</li>
+          <li>VIGILIA, Jayson</li>
+          <!-- <li>reserved</li>
+          <li>reserved</li> -->
+        </ul>
+      </div>
+      <div class="godparent-group">
+        <div class="group-title">Female</div>
+        <ul class="godparent-list">
+          <li>APOLONIO, Marissa</li>
+          <li>CAMBE, Nenita</li>
+          <li>DELA CRUZ, Jhona Reem</li>
+          <li>DEYTO, Jaynee</li>
+          <li>DULDULAO, Eleonor</li>
+          <li>MENDOZA, Cristina</li>
+          <li>SANTIAGO, Florinda</li>
+          <li>UMAYAM, Josefina</li>
+          <li>VERANO, Odeza</li>
+          <li>VICENTE, Marivic</li>
+        </ul>
+      </div>
+      <h3>HOPE TO SEE YOU SOON !</h3>
     </div>
   </div>
 
   <!-- MAP -->
-  <div class="map-section">
+  <div class="map-section fade-in-section delay-3">
     <div class="map-box">
       <iframe src="https://www.google.com/maps?q=15.6303773,120.9517573&z=17&output=embed"></iframe>
     </div>
   </div>
-
   <a href="https://www.google.com/maps/dir/?api=1&destination=15.6303773,120.9517573"
-     target="_blank"
-     class="directions-btn">
-    🚗 Get Directions
-  </a>
+     target="_blank" class="directions-btn">🚗 Get Directions</a>
+
+  <!-- CHECK-IN -->
+  <div class="section-card glass fade-in-section delay-4">
+    <div class="section-title">🎟 Guest Check-in</div>
+    <div class="form-row">
+      <input type="text" id="name" placeholder="Enter your name">
+      <select id="guests">
+        <option value="" disabled selected>Select guest count</option>
+        <option value="1">1 guest</option>
+        <option value="2">2 guests</option>
+        <option value="3">3 guests</option>
+        <option value="4">4 guests</option>
+        <option value="5">5 guests</option>
+      </select>
+    </div>
+    <button id="checkinButton" style="margin-top:14px;">Check In</button>
+    <p id="alertText">Your arrival status can be detected when you check in.</p>
+    <div class="count-summary">
+      <div class="summary-card">
+        <strong id="totalGuests">0</strong>
+        <span>Total guests</span>
+      </div>
+      <div class="summary-card">
+        <strong id="totalNames">0</strong>
+        <span>Confirmed names</span>
+      </div>
+    </div>
+    <div class="status-pill" id="locationStatus">Arrival status will appear here</div>
+  </div>
+
+  <!-- GUEST GALLERY -->
+  <div class="guest-gallery-section fade-in-section delay-5">
+    <h2 class="guest-gallery-title">👥 Guests</h2>
+    <div class="gallery-note" id="guestGalleryPrompt">
+      <p>Guest names are private and only visible to kuya vincent.</p>
+      <button id="viewGuestListBtn" class="secondary-btn">View guest list</button>
+    </div>
+    <div class="guest-gallery-grid hidden" id="guestGallery"></div>
+  </div>
+
+  <!-- MESSAGE WALL -->
+  <div class="section-card glass message-wall fade-in-section delay-6">
+    <div class="section-title">🎁 Leave a message for Kiana</div>
+    <div class="form-row">
+      <input type="text" id="messageName" placeholder="Your name">
+      <textarea id="guestMessage" placeholder="Leave a message..."></textarea>
+    </div>
+    <button id="messageButton" style="margin-top:14px;">Post a Message</button>
+    <p id="messageStatus"></p>
+    <div class="message-list" id="messagesList"></div>
+  </div>
+
+  <p class="page-credit">Designed and developed by Vincent.</p>
 
   <!-- GALLERY -->
-  <div class="gallery-section">
-    <h2 class="gallery-title">📸 GALLERY</h2>
+  <div class="gallery-section fade-in-section delay-7">
+    <h2 class="gallery-title">📸 Gallery</h2>
     <div class="gallery-scroll">
-      <img src="images/1.jpg">
-      <img src="images/2.jpg">
-      <img src="images/3.jpg">
-      <img src="images/4.jpg">
-      <img src="images/5.jpg">
-      <img src="images/6.jpg">
-      <img src="images/7.jpg">
-      <img src="images/8.jpg">
+      <img src="images/1.jpg" alt=""><img src="images/2.jpg" alt="">
+      <img src="images/3.jpg" alt=""><img src="images/4.jpg" alt="">
+      <img src="images/5.jpg" alt=""><img src="images/6.jpg" alt="">
+      <img src="images/7.jpg" alt=""><img src="images/8.jpg" alt="">
     </div>
   </div>
 
-  <!-- CHECKIN -->
-  <div class="checkin">
-    <input type="text" id="name" placeholder="Enter your name">
-    <button onclick="submitName()">Check In</button>
-    <p id="message"></p>
-  </div>
+</div><!-- /poster -->
 
-</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
+  import { getFirestore, collection, query, where, getDocs, addDoc, orderBy, doc, updateDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-<script>
-function submitName() {
-  const name = document.getElementById("name").value;
+  const firebaseConfig = {
+    apiKey: "AIzaSyAQ8DM16CDnhh51m0LiM4c2DoCXWhYDE4Q",
+    authDomain: "invite-site-73bfb.firebaseapp.com",
+    projectId: "invite-site-73bfb",
+    storageBucket: "invite-site-73bfb.firebasestorage.app",
+    messagingSenderId: "542444753010",
+    appId: "1:542444753010:web:4831abf5f76839207572eb",
+    measurementId: "G-Q05SPC6MTM"
+  };
 
-  if (!name) {
-    alert("Enter your name first 💖");
-    return;
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+  const guestListPassword = "admin_vincent"; // Set the guest list password here
+
+  const eventDate = new Date("May 23, 2026 09:30:00").getTime();
+  const eventLocation = { lat: 15.6303773, lng: 120.9517573 };
+  const arrivalRadius = 300;
+
+  const nameInput = document.getElementById("name");
+  const guestsInput = document.getElementById("guests");
+  const alertText = document.getElementById("alertText");
+  const totalGuestsElement = document.getElementById("totalGuests");
+  const totalNamesElement = document.getElementById("totalNames");
+  const locationStatus = document.getElementById("locationStatus");
+  const guestGallery = document.getElementById("guestGallery");
+  const guestGalleryPrompt = document.getElementById("guestGalleryPrompt");
+  const viewGuestListBtn = document.getElementById("viewGuestListBtn");
+  const messagesList = document.getElementById("messagesList");
+  const messageNameInput = document.getElementById("messageName");
+  const guestMessageInput = document.getElementById("guestMessage");
+  const messageButton = document.getElementById("messageButton");
+  const messageStatus = document.getElementById("messageStatus");
+  const checkinButton = document.getElementById("checkinButton");
+
+  async function playCheckinMusic() {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') await audioCtx.resume();
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((frequency, index) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = frequency;
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const start = audioCtx.currentTime + index * 0.18;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.02, start + 0.16);
+      osc.start(start);
+      osc.stop(start + 0.18);
+    });
   }
 
-  document.getElementById("message").innerText =
-    "Thank you for confirming your attendance 💖";
-
-  document.getElementById("name").value = "";
-}
-
-/* ⏳ COUNTDOWN SCRIPT */
-const eventDate = new Date("May 23, 2026 09:30:00").getTime();
-
-const x = setInterval(function() {
-
-  const now = new Date().getTime();
-  const distance = eventDate - now;
-
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  document.getElementById("days").innerText = days;
-  document.getElementById("hours").innerText = hours;
-  document.getElementById("minutes").innerText = minutes;
-  document.getElementById("seconds").innerText = seconds;
-
-  if (distance < 0) {
-    clearInterval(x);
-    document.querySelector(".countdown").innerHTML = "🎉 The event has started!";
+  function formatTimeAgo(timestamp) {
+    const now = Date.now();
+    const diff = Math.max(0, now - timestamp);
+    const minutes = Math.floor(diff / 60000);
+    if (minutes < 1) return 'Just now';
+    if (minutes < 60) return `${minutes} min${minutes === 1 ? '' : 's'} ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+    const days = Math.floor(hours / 24);
+    return `${days} day${days === 1 ? '' : 's'} ago`;
   }
 
-}, 1000);
+  async function updateMessageReactions(messageId, type) {
+    const messageRef = doc(db, 'messages', messageId);
+    await updateDoc(messageRef, { [`reactions.${type}`]: increment(1) });
+  }
+
+  function createMessageItem(docSnapshot) {
+    const data = docSnapshot.data();
+    const reactions = data.reactions || { heart: 0, pray: 0, sparkle: 0 };
+    const item = document.createElement('div');
+    item.className = 'message-item';
+    item.innerHTML = `
+      <div class="message-top">
+        <strong>${data.name}</strong>
+        <span class="time-label">${formatTimeAgo(data.createdAt)}</span>
+      </div>
+      <p>${data.message}</p>
+      <div class="reaction-row">
+        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="heart">❤️ <span class="reaction-count">${reactions.heart || 0}</span></button>
+        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="pray">🙏 <span class="reaction-count">${reactions.pray || 0}</span></button>
+        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="sparkle">✨ <span class="reaction-count">${reactions.sparkle || 0}</span></button>
+      </div>
+    `;
+    item.querySelectorAll('.reaction-button').forEach((button) => {
+      button.addEventListener('click', async () => {
+        await updateMessageReactions(docSnapshot.id, button.dataset.reaction);
+      });
+    });
+    return item;
+  }
+
+  function triggerFadeIn() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-in-section').forEach((section) => {
+      observer.observe(section);
+    });
+  }
+
+  function getDistanceMeters(lat1, lng1, lat2, lng2) {
+    const R = 6371000;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  function detectArrival() {
+    return new Promise((resolve) => {
+      if (!navigator.geolocation) { resolve(null); return; }
+      navigator.geolocation.getCurrentPosition((position) => {
+        const distanceMeters = getDistanceMeters(eventLocation.lat, eventLocation.lng, position.coords.latitude, position.coords.longitude);
+        resolve({ arrived: distanceMeters <= arrivalRadius, distanceMeters });
+      }, () => resolve(null), { enableHighAccuracy: true, timeout: 10000, maximumAge: 20000 });
+    });
+  }
+
+  async function submitCheckin() {
+    const nameValue = nameInput.value.trim();
+    const guestsValue = guestsInput.value;
+    if (!nameValue) {
+      await Swal.fire({ icon: 'warning', title: 'Name required', text: 'Please enter your name before checking in.', toast: true, position: 'top', timer: 2500, showConfirmButton: false });
+      return;
+    }
+    if (!guestsValue) {
+      await Swal.fire({ icon: 'warning', title: 'Guest count required', text: 'Please select how many guests are attending, including yourself.', toast: true, position: 'top', timer: 2800, showConfirmButton: false });
+      return;
+    }
+    const guestsCount = parseInt(guestsValue, 10);
+    alertText.innerText = 'Checking for duplicates...';
+    const attendeeQuery = query(collection(db, 'attendees'), where('nameLower', '==', nameValue.toLowerCase()));
+    const duplicateSnapshot = await getDocs(attendeeQuery);
+    if (!duplicateSnapshot.empty) {
+      await Swal.fire({ icon: 'error', title: 'Already checked in', text: 'This name has already checked in. Please use the registered name only.', toast: true, position: 'top', timer: 3000, showConfirmButton: false });
+      return;
+    }
+    const location = await detectArrival();
+    const locationText = location
+      ? location.arrived ? `Arrived at location • ${Math.round(location.distanceMeters)}m away` : `Near location • ${Math.round(location.distanceMeters)}m away`
+      : 'Location unavailable or permission denied';
+    locationStatus.innerText = locationText;
+    await addDoc(collection(db, 'attendees'), {
+      name: nameValue, nameLower: nameValue.toLowerCase(), guestsCount,
+      arrivalStatus: locationText, distanceMeters: location?.distanceMeters || null, createdAt: Date.now()
+    });
+    nameInput.value = '';
+    guestsInput.value = '';
+    alertText.innerText = 'Thank you for checking in! Your guest count has been updated.';
+    await Swal.fire({ icon: 'success', title: 'Checked In', text: 'Your attendance has been recorded.', toast: true, position: 'top', timer: 2500, showConfirmButton: false });
+    playCheckinMusic();
+    await loadCounts();
+    await loadGuestGallery(false);
+  }
+
+  async function loadCounts() {
+    const snapshot = await getDocs(collection(db, 'attendees'));
+    let totalGuests = 0;
+    snapshot.forEach((doc) => { totalGuests += Number(doc.data().guestsCount || 1); });
+    totalGuestsElement.innerText = totalGuests;
+    totalNamesElement.innerText = snapshot.size;
+  }
+
+  async function loadGuestGallery(showPrivate = false) {
+    guestGallery.classList.add('hidden');
+    if (guestGalleryPrompt) guestGalleryPrompt.classList.remove('hidden');
+  }
+
+  async function fetchGuestList() {
+    const galleryQuery = query(collection(db, 'attendees'), orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(galleryQuery);
+    return snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        name: data.name,
+        guestsCount: data.guestsCount || 1,
+        arrivalStatus: data.arrivalStatus || 'No location info'
+      };
+    });
+  }
+
+  async function showGuestListModal() {
+    const guests = await fetchGuestList();
+    if (!guests.length) {
+      await Swal.fire({ icon: 'info', title: 'No guest check-ins', text: 'No guest names are available yet.', confirmButtonText: 'Close' });
+      return;
+    }
+
+    const html = guests.map((item) => `
+      <div style="text-align:left; margin-bottom: 10px; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,0.14);">
+        <strong style="display:block; font-size:0.95rem; margin-bottom:4px;">${item.name}</strong>
+        <span style="font-size:0.88rem; color:#f3e8ff;">${item.guestsCount} guest${item.guestsCount === 1 ? '' : 's'}</span>
+        <div style="font-size:0.8rem; color:#d8b4fe; margin-top:4px;">${item.arrivalStatus}</div>
+      </div>
+    `).join('');
+
+    await Swal.fire({
+      title: 'Guest list',
+      html: `<div style="max-height: 400px; overflow-y: auto; text-align:left;">${html}</div>`,
+      width: 'min(90vw, 680px)',
+      confirmButtonText: 'Close',
+      scrollbarPadding: false,
+    });
+  }
+
+  async function submitMessage() {
+    const nameValue = messageNameInput.value.trim();
+    const textValue = guestMessageInput.value.trim();
+    if (!nameValue || !textValue) {
+      await Swal.fire({ icon: 'warning', title: 'Incomplete', text: 'Please add your name and a message before sending.', toast: true, position: 'top', timer: 2500, showConfirmButton: false });
+      return;
+    }
+    await addDoc(collection(db, 'messages'), {
+      name: nameValue, message: textValue,
+      reactions: { heart: 0, pray: 0, sparkle: 0 }, createdAt: Date.now()
+    });
+    messageNameInput.value = '';
+    guestMessageInput.value = '';
+    messageStatus.innerText = 'Your message is posted. Thank you!';
+    await Swal.fire({ icon: 'success', title: 'Message posted', text: 'Your note is now part of the memory wall.', toast: true, position: 'top', timer: 2500, showConfirmButton: false });
+  }
+
+  function setupMessageListener() {
+    const messageQuery = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+    onSnapshot(messageQuery, (snapshot) => {
+      messagesList.innerHTML = '';
+      if (snapshot.empty) { messagesList.innerHTML = '<div style="color:#7c3aed;font-weight:600;font-size:0.9rem;">No messages yet. Be first to leave a note for baby!</div>'; return; }
+      snapshot.forEach((docSnapshot) => messagesList.appendChild(createMessageItem(docSnapshot)));
+    });
+  }
+
+  async function unlockGuestList() {
+    if (guestListPassword === 'REPLACE_WITH_SECRET') {
+      await Swal.fire({ icon: 'info', title: 'Password not set', text: 'Please update the guest list password in the code before using this feature.', confirmButtonText: 'OK' });
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: 'Guest list access',
+      text: 'Enter the private password to view the guest list.',
+      input: 'password',
+      inputPlaceholder: 'Password',
+      showCancelButton: true,
+      confirmButtonText: 'Unlock',
+      inputAttributes: { autocapitalize: 'off', autocorrect: 'off' },
+      allowOutsideClick: false,
+      preConfirm: (value) => {
+        if (!value) {
+          Swal.showValidationMessage('Password is required');
+          return false;
+        }
+        if (value !== guestListPassword) {
+          Swal.showValidationMessage('Incorrect password');
+          return false;
+        }
+        return true;
+      }
+    });
+
+    if (result.isConfirmed) {
+      await Swal.fire({ icon: 'success', title: 'Access granted', toast: true, position: 'top', timer: 2200, showConfirmButton: false });
+      await showGuestListModal();
+    }
+  }
+
+  checkinButton.addEventListener('click', submitCheckin);
+  messageButton.addEventListener('click', submitMessage);
+  if (viewGuestListBtn) viewGuestListBtn.addEventListener('click', unlockGuestList);
+
+  loadCounts();
+  loadGuestGallery();
+  setupMessageListener();
+  window.addEventListener('load', triggerFadeIn);
+
+  const x = setInterval(function() {
+    const now = new Date().getTime();
+    const distance = eventDate - now;
+    document.getElementById('days').innerText = Math.floor(distance / (1000*60*60*24));
+    document.getElementById('hours').innerText = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+    document.getElementById('minutes').innerText = Math.floor((distance % (1000*60*60)) / (1000*60));
+    document.getElementById('seconds').innerText = Math.floor((distance % (1000*60)) / 1000);
+    if (distance < 0) { clearInterval(x); document.querySelector('.countdown').innerHTML = '<div style="font-family:\'DM Serif Display\',serif;font-size:1.5rem;color:#6b21a8;">🎉 The event has started!</div>'; }
+  }, 1000);
 </script>
 
 </body>
