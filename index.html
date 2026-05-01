@@ -74,7 +74,7 @@ body {
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 1;
+  z-index: 9999;
 }
 .petal {
   position: absolute;
@@ -147,18 +147,20 @@ body {
   letter-spacing: 3.5px;
   text-transform: uppercase;
   color: var(--text-secondary);
-  margin-bottom: 10px;
-  margin-top: 16px;
+  /* margin-bottom: 10px; */
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 .name {
   font-family: var(--font-display);
   font-size: clamp(3rem, 10vw, 5rem);
   line-height: 1.05;
+  /* line-height: 0.9; */
   background: linear-gradient(135deg, #6b21a8 0%, #be185d 55%, #9333ea 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 6px;
+  /* margin-bottom: 6px; */
 }
 .name span { display: block; }
 
@@ -649,19 +651,21 @@ button:active { transform: scale(0.98); }
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
-  border-bottom: 1px solid rgba(255,255,255,0.3);
+  border-bottom:  0.01px solid rgba(255,255,255,0.3);
 }
 
 .ticker-track {
   position: relative;
   white-space: nowrap;
   font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 1.5px;
   color: #d63384;
   font-family: 'Montserrat', sans-serif;
 
   /* start off screen right */
   transform: translateX(100%);
-  animation: slideOnce 12s linear forwards;
+  animation: slideOnce 13s linear forwards;
 }
 
 /* ONE-TIME animation */
@@ -670,19 +674,17 @@ button:active { transform: scale(0.98); }
     transform: translateX(100%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-150%);
   }
-  body {
-  padding-top: 40px;
-}
 }
 </style>
 </head>
+
 <body>
 <!-- 📁 FILE: index.html -->
 <div class="news-ticker">
   <div class="ticker-track" id="ticker">
-    🌸 Developed by Kuya Vincent 🌸 Welcome to our special day 🌸
+    🌸 Developed by Kuya Vincent  🌸  Welcome to our special day 🌸
   </div>
 </div>
 <!-- BG -->
@@ -794,7 +796,7 @@ button:active { transform: scale(0.98); }
           <li>VICENTE, Marivic</li>
         </ul>
       </div>
-      <h3>HOPE TO SEE YOU SOON !</h3>
+      <!-- <h3>See you!</h3> -->
     </div>
   </div>
 
@@ -814,7 +816,7 @@ button:active { transform: scale(0.98); }
       <input type="text" id="name" placeholder="Enter your name">
       <select id="guests">
         <option value="" disabled selected>Select guest count</option>
-        <option value="1">1 guest</option>
+        <option value="1">Just myself</option>
         <option value="2">2 guests</option>
         <option value="3">3 guests</option>
         <option value="4">4 guests</option>
