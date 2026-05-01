@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Baptism Invitation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  overflow-x: hidden;
+}
+
+/* BACKGROUND */
+.poster {
+  min-height: 100vh;
+  padding: 20px;
+  text-align: center;
+  background: linear-gradient(to bottom, #f8f8f8, #f5c6d6, #cba6f7);
+}
+
+/* NAME */
+.name {
+  font-family: 'Great Vibes';
+  font-size: 2.8rem;
+}
+
+/* FRAME */
+.photo-frame {
+  position: relative;
+  width: 320px;
+  margin: 20px auto;
+}
+
+.frame-img {
+  width: 140%;
+}
+
+.sister-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 65%;
+  transform: translate(-50%, -50%);
+}
+
+/* GLASS CARD */
+.card {
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+/* INPUT */
+input, textarea {
+  width: 90%;
+  padding: 12px;
+  margin: 5px;
+  border-radius: 10px;
+  border: none;
+}
+
+/* IOS BUTTON */
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: rgba(255,105,180,0.4);
+  backdrop-filter: blur(10px);
+  color: white;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* GALLERY */
+#guestGallery img {
+  width: 90px;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+/* PETALS 🌸 */
+.petal {
+  position: fixed;
+  width: 25px;
+  animation: fall linear infinite;
+  z-index: 0;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="poster">
+
+<h1 class="name">Kiana Briane</h1>
+
+<div class="photo-frame">
+  <img src="images/r2.png" class="frame-img">
+  <img src="images/r1.png" class="sister-img">
+</div>
+
+<!-- CHECKIN -->
+<div class="card">
+  <h3>💖 Check In</h3>
+
+  <input id="name" placeholder="Your Name">
+  <input id="guests" type="number" placeholder="No. of Guests" min="1">
+  <textarea id="messageBox" placeholder="Message for baby 💖"></textarea>
+  <input type="file" id="photo">
+
+  <button onclick="submitName()">Check In</button>
+</div>
+
+<!-- COUNT -->
+<div class="card">
+  <h3 id="guestCount">Total Guests: 0</h3>
+</div>
+
+<!-- LIST -->
+<div class="card">
+  <h3>Guest List</h3>
+  <ul id="guestList"></ul>
+</div>
+
+<!-- GALLERY -->
+<div class="card">
+  <h3>Guest Gallery 📸</h3>
+  <div id="guestGallery"></div>
+</div>
+
+</div>
+
+<!-- 🌸 PETALS SCRIPT -->
+<script>
+for (let i = 0; i < 15; i++) {
+  let petal = document.createElement("img");
+  petal.src = "images/petal.png";
+  petal.className = "petal";
+
+  petal.style.left = Math.random() * 100 + "vw";
+  petal.style.animationDuration = (5 + Math.random() * 5) + "s";
+
+  document.body.appendChild(petal);
+}
+</script>
+
+<!-- 🔥 FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "PASTE_YOURS",
+  authDomain: "PASTE_YOURS",
+  databaseURL: "PASTE_YOURS",
+  projectId: "PASTE_YOURS",
+  storageBucket: "PASTE_YOURS",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+const audio = new Audio("images/success.mp3");
+
+window.submitName = async function () {
+  const name = document.getElementById("name").value.trim();
+  const guests = document.getElementById("guests").value || 1;
+  const message = document.getElementById("messageBox").value;
+
+  if (!name) return alert("Enter name");
+
+  const snapshot = await get(child(ref(db), "guests"));
+  let exists = false;
+
+  if (snapshot.exists()) {
+    snapshot.forEach(c => {
+      if (c.val().name.toLowerCase() === name.toLowerCase()) {
+        exists = true;
+      }
+    });
+  }
+
+  if (exists) return alert("Already checked in!");
+
+  const file = document.getElementById("photo").files[0];
+  let photoURL = "";
+
+  if (file) {
+    const storageRef = sRef(storage, "photos/" + Date.now());
+    await uploadBytes(storageRef, file);
+    photoURL = await getDownloadURL(storageRef);
+  }
+
+  push(ref(db, "guests"), {
+    name,
+    guests,
+    message,
+    photoURL,
+    time: new Date().toLocaleString()
+  });
+
+  audio.play();
+
+  document.getElementById("name").value = "";
+};
+
+const list = document.getElementById("guestList");
+const gallery = document.getElementById("guestGallery");
+const countBox = document.getElementById("guestCount");
+
+onValue(ref(db, "guests"), (snapshot) => {
+  list.innerHTML = "";
+  gallery.innerHTML = "";
+
+  let total = 0;
+
+  snapshot.forEach(c => {
+    const d = c.val();
+    total += Number(d.guests);
+
+    const li = document.createElement("li");
+    li.innerText = `${d.name} (+${d.guests})`;
+    list.appendChild(li);
+
+    if (d.photoURL) {
+      const img = document.createElement("img");
+      img.src = d.photoURL;
+      gallery.appendChild(img);
+    }
+  });
+
+  countBox.innerText = "Total Guests: " + total;
+});
+</script>
+
+</body>
+</html>
