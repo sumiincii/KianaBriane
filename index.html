@@ -68,7 +68,37 @@
       <div class="time-box"><div id="seconds">0</div>Secs</div>
     </div>
   </div>
+<!-- CHECK-IN -->
+  <div class="section-card glass fade-in-section delay-4">
+    <div class="section-title">🎟 Guest Check-in</div>
+    <div class="form-row">
+      <input type="text" id="name" placeholder="Enter your name">
+      <select id="guests">
+        <option value="" disabled selected>Select guest count</option>
+        <option value="1">Just myself</option>
+        <option value="2">2 guests</option>
+        <option value="3">3 guests</option>
+        <option value="4">4 guests</option>
+        <option value="5">5 guests</option>
+        <option value="6">6 guests</option>
+      </select>
+    </div>
+    <button id="checkinButton" style="margin-top:14px;">Check In</button>
+    <p id="alertText">Your arrival status can be detected when you check in.</p>
+    <div class="count-summary">
+      <div class="summary-card">
+        <strong id="totalGuests">0</strong>
+        <span>Total guests</span>
+      </div>
+      <div class="summary-card">
+        <strong id="totalNames">0</strong>
+        <span>Confirmed names</span>
+      </div>
+    </div>
+    <div class="status-pill" id="locationStatus">Arrival status will appear here</div>
+  </div>
 
+  
   <!-- EVENT DETAILS -->
   <div class="details-card glass fade-in-section delay-1">
     <div class="details-title">Event Details</div>
@@ -156,44 +186,7 @@
   <a href="https://www.google.com/maps/dir/?api=1&destination=15.6303773,120.9517573"
      target="_blank" class="directions-btn">🚗 Get Directions</a>
 
-  <!-- CHECK-IN -->
-  <div class="section-card glass fade-in-section delay-4">
-    <div class="section-title">🎟 Guest Check-in</div>
-    <div class="form-row">
-      <input type="text" id="name" placeholder="Enter your name">
-      <select id="guests">
-        <option value="" disabled selected>Select guest count</option>
-        <option value="1">Just myself</option>
-        <option value="2">2 guests</option>
-        <option value="3">3 guests</option>
-        <option value="4">4 guests</option>
-        <option value="5">5 guests</option>
-      </select>
-    </div>
-    <button id="checkinButton" style="margin-top:14px;">Check In</button>
-    <p id="alertText">Your arrival status can be detected when you check in.</p>
-    <div class="count-summary">
-      <div class="summary-card">
-        <strong id="totalGuests">0</strong>
-        <span>Total guests</span>
-      </div>
-      <div class="summary-card">
-        <strong id="totalNames">0</strong>
-        <span>Confirmed names</span>
-      </div>
-    </div>
-    <div class="status-pill" id="locationStatus">Arrival status will appear here</div>
-  </div>
-
-  <!-- GUEST GALLERY -->
-  <div class="guest-gallery-section fade-in-section delay-5">
-    <h2 class="guest-gallery-title">👥 Guests</h2>
-    <div class="gallery-note" id="guestGalleryPrompt">
-      <p>Guest names are private and only visible to kuya vincent.</p>
-      <button id="viewGuestListBtn" class="secondary-btn">View guest list</button>
-    </div>
-    <div class="guest-gallery-grid hidden" id="guestGallery"></div>
-  </div>
+  
 
   <!-- MESSAGE WALL -->
   <div class="section-card glass message-wall fade-in-section delay-6">
@@ -218,6 +211,15 @@
       <img src="images/5.jpg" alt=""><img src="images/6.jpg" alt="">
       <img src="images/7.jpg" alt=""><img src="images/8.jpg" alt="">
     </div>
+  </div>
+  <!-- GUEST List -->
+  <div class="guest-gallery-section fade-in-section delay-5">
+    <h2 class="guest-gallery-title">👥 Guests</h2>
+    <div class="gallery-note" id="guestGalleryPrompt">
+      <p>Guest names are private and only visible to kuya vincent.</p>
+      <button id="viewGuestListBtn" class="secondary-btn">View guest list</button>
+    </div>
+    <div class="guest-gallery-grid hidden" id="guestGallery"></div>
   </div>
 
 </div><!-- /poster -->
