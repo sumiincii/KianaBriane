@@ -136,8 +136,22 @@
   <!-- MAP -->
   <div class="map-section fade-in-section delay-3">
     <div class="map-box">
-      <iframe src="https://www.google.com/maps?q=15.6303773,120.9517573&z=17&output=embed"></iframe>
-    </div>
+  <iframe
+    src="https://maps.google.com/maps?q=15.6303773,120.9517573&z=17&output=embed"
+    width="100%"
+    height="100%"
+    style="border:0;"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    allowfullscreen>
+  </iframe>
+  <!-- <p class="map-fallback">
+  Having trouble loading the map?
+  <a href="https://www.google.com/maps?q=15.6303773,120.9517573" target="_blank">
+    Open in Google Maps
+  </a>
+</p> -->
+</div>
   </div>
   <a href="https://www.google.com/maps/dir/?api=1&destination=15.6303773,120.9517573"
      target="_blank" class="directions-btn">🚗 Get Directions</a>
@@ -432,7 +446,7 @@
     const messageQuery = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
     onSnapshot(messageQuery, (snapshot) => {
       messagesList.innerHTML = '';
-      if (snapshot.empty) { messagesList.innerHTML = '<div style="color:#7c3aed;font-weight:600;font-size:0.9rem;">No messages yet. Be first to leave a note for baby!</div>'; return; }
+      if (snapshot.empty) { messagesList.innerHTML = '<div style="color:#7c3aed;font-weight:600;font-size:0.9rem;">No messages yet. Be first to leave a note for Kiana!</div>'; return; }
       snapshot.forEach((docSnapshot) => messagesList.appendChild(createMessageItem(docSnapshot)));
     });
   }
