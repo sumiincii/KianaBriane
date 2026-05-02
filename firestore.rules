@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidAttendeeData() {
+      return request.resource.data.keys().hasAll(['name', 'nameLower', 'guestsCount', 'arrivalStatus', 'distanceMeters', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.nameLower is string
+        && request.resource.data.guestsCount is int
+        && request.resource.data.createdAt is int
+        && request.resource.data.arrivalStatus is string
+        && (request.resource.data.distanceMeters is null || request.resource.data.distanceMeters is number)
+        && request.resource.data.nameLower == request.resource.data.name.toLowerCase()
+        && request.resource.data.guestsCount >= 1
+        && request.resource.data.guestsCount <= 10
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 120;
+    }
+
+    match /attendees/{attendeeId} {
+      allow read: if true;
+      allow create: if request.auth == null
+        && request.method == 'create'
+        && isValidAttendeeData()
+        && attendeeId == request.resource.data.nameLower
+        && !exists(/databases/$(database)/documents/attendees/$(attendeeId));
+      allow update, delete: if false;
+    }
+
+    function isValidMessageData() {
+      return request.resource.data.keys().hasAll(['name', 'message', 'createdAt', 'reactions'])
+        && request.resource.data.name is string
+        && request.resource.data.message is string
+        && request.resource.data.createdAt is int
+        && request.resource.data.reactions.heart is int
+        && request.resource.data.reactions.heart == 0
+        && request.resource.data.reactions.keys().hasOnly(['heart'])
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 120
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 1000;
+    }
+
+    match /messages/{messageId} {
+      allow read: if true;
+      allow create: if request.auth == null
+        && request.method == 'create'
+        && isValidMessageData();
+      allow delete: if false;
+      allow update: if request.auth == null
+        && request.resource.data.keys().hasOnly(resource.data.keys())
+        && request.resource.data.name == resource.data.name
+        && request.resource.data.message == resource.data.message
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.reactions.keys().hasOnly(['heart'])
+        && request.resource.data.reactions.heart == resource.data.reactions.heart + 1;
+    }
+  }
+}

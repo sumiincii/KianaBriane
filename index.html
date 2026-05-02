@@ -226,7 +226,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
-  import { getFirestore, collection, query, where, getDocs, addDoc, orderBy, doc, updateDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+  import { getFirestore, collection, query, where, getDocs, getDoc, addDoc, setDoc, orderBy, doc, updateDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAQ8DM16CDnhh51m0LiM4c2DoCXWhYDE4Q",
@@ -297,6 +297,14 @@
     return `${days} day${days === 1 ? '' : 's'} ago`;
   }
 
+  function hasHearted(messageId) {
+    return localStorage.getItem(`hearted_${messageId}`) === '1';
+  }
+
+  function markHearted(messageId) {
+    localStorage.setItem(`hearted_${messageId}`, '1');
+  }
+
   async function updateMessageReactions(messageId, type) {
     const messageRef = doc(db, 'messages', messageId);
     await updateDoc(messageRef, { [`reactions.${type}`]: increment(1) });
@@ -315,13 +323,21 @@
       <p>${data.message}</p>
       <div class="reaction-row">
         <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="heart">❤️ <span class="reaction-count">${reactions.heart || 0}</span></button>
-        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="pray">🙏 <span class="reaction-count">${reactions.pray || 0}</span></button>
-        <button class="reaction-button" data-message-id="${docSnapshot.id}" data-reaction="sparkle">✨ <span class="reaction-count">${reactions.sparkle || 0}</span></button>
       </div>
     `;
     item.querySelectorAll('.reaction-button').forEach((button) => {
+      if (hasHearted(docSnapshot.id)) {
+        button.disabled = true;
+      }
       button.addEventListener('click', async () => {
-        await updateMessageReactions(docSnapshot.id, button.dataset.reaction);
+        if (button.disabled) return;
+        button.disabled = true;
+        try {
+          await updateMessageReactions(docSnapshot.id, button.dataset.reaction);
+          markHearted(docSnapshot.id);
+        } catch (error) {
+          button.disabled = false;
+        }
       });
     });
     return item;
@@ -359,6 +375,10 @@
     });
   }
 
+  function normalizeAttendeeId(name) {
+    return name.trim().toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_-]/g, '');
+  }
+
   async function submitCheckin() {
     const nameValue = nameInput.value.trim();
     const guestsValue = guestsInput.value;
@@ -372,21 +392,34 @@
     }
     const guestsCount = parseInt(guestsValue, 10);
     alertText.innerText = 'Checking for duplicates...';
-    const attendeeQuery = query(collection(db, 'attendees'), where('nameLower', '==', nameValue.toLowerCase()));
-    const duplicateSnapshot = await getDocs(attendeeQuery);
-    if (!duplicateSnapshot.empty) {
+    const attendeeId = normalizeAttendeeId(nameValue);
+    if (!attendeeId) {
+      await Swal.fire({ icon: 'warning', title: 'Invalid name', text: 'Please enter a valid name containing letters or numbers only.', toast: true, position: 'top', timer: 2800, showConfirmButton: false });
+      return;
+    }
+
+    const attendeeRef = doc(db, 'attendees', attendeeId);
+    const existingAttendee = await getDoc(attendeeRef);
+    if (existingAttendee.exists()) {
       await Swal.fire({ icon: 'error', title: 'Already checked in', text: 'This name has already checked in. Please use the registered name only.', toast: true, position: 'top', timer: 3000, showConfirmButton: false });
       return;
     }
+
     const location = await detectArrival();
     const locationText = location
       ? location.arrived ? `Arrived at location • ${Math.round(location.distanceMeters)}m away` : `Near location • ${Math.round(location.distanceMeters)}m away`
       : 'Location unavailable or permission denied';
     locationStatus.innerText = locationText;
-    await addDoc(collection(db, 'attendees'), {
-      name: nameValue, nameLower: nameValue.toLowerCase(), guestsCount,
-      arrivalStatus: locationText, distanceMeters: location?.distanceMeters || null, createdAt: Date.now()
+
+    await setDoc(attendeeRef, {
+      name: nameValue,
+      nameLower: nameValue.toLowerCase(),
+      guestsCount,
+      arrivalStatus: locationText,
+      distanceMeters: location?.distanceMeters || null,
+      createdAt: Date.now()
     });
+
     nameInput.value = '';
     guestsInput.value = '';
     alertText.innerText = 'Thank you for checking in! Your guest count has been updated.';
@@ -433,8 +466,10 @@
       return;
     }
     await addDoc(collection(db, 'messages'), {
-      name: nameValue, message: textValue,
-      reactions: { heart: 0, pray: 0, sparkle: 0 }, createdAt: Date.now()
+      name: nameValue,
+      message: textValue,
+      reactions: { heart: 0 },
+      createdAt: Date.now()
     });
     messageNameInput.value = '';
     guestMessageInput.value = '';
