@@ -8,18 +8,15 @@
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
 <link rel="manifest" href="/images/site.webmanifest">
-<style>
-
-</style>
 </head>
-
 <body>
-<!-- 📁 FILE: index.html -->
+
 <div class="news-ticker">
   <div class="ticker-track" id="ticker">
     🌸 Developed by Kuya Vincent  🌸  Welcome to our special day 🌸
   </div>
 </div>
+
 <!-- BG -->
 <div class="bg-canvas">
   <div class="bg-blob blob1"></div>
@@ -68,7 +65,8 @@
       <div class="time-box"><div id="seconds">0</div>Secs</div>
     </div>
   </div>
-<!-- CHECK-IN -->
+
+  <!-- CHECK-IN -->
   <div class="section-card glass fade-in-section delay-4">
     <div class="section-title">🎟 Guest Check-in</div>
     <div class="form-row">
@@ -80,7 +78,6 @@
         <option value="3">3 guests</option>
         <option value="4">4 guests</option>
         <option value="5">5 guests</option>
-        <option value="6">6 guests</option>
       </select>
     </div>
     <button id="checkinButton" style="margin-top:14px;">Check In</button>
@@ -98,29 +95,21 @@
     <div class="status-pill" id="locationStatus">Arrival status will appear here</div>
   </div>
 
-  
   <!-- EVENT DETAILS -->
   <div class="details-card glass fade-in-section delay-1">
     <div class="details-title">Event Details</div>
     <div class="detail-item">
-      <div class="detail-icon">📍</div>
+      <div class="detail-icon">⛪</div>
       <div class="detail-text">
-        <div class="detail-label">Ceremony</div>
+        <div class="detail-label">Ceremony · 9:30 AM</div>
         <div class="detail-value">San Isidro de Labrador Parish Church</div>
       </div>
     </div>
-    <div class="detail-item">
+    <div class="detail-item detail-item--last">
       <div class="detail-icon">🎉</div>
       <div class="detail-text">
-        <div class="detail-label">Reception</div>
+        <div class="detail-label">Reception · 11:00 AM</div>
         <div class="detail-value">Villa Velmar Resort</div>
-      </div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-icon">🕒</div>
-      <div class="detail-text">
-        <div class="detail-label">Time</div>
-        <div class="detail-value">11:00 AM</div>
       </div>
     </div>
   </div>
@@ -130,7 +119,7 @@
     <div class="details-title">GODPARENTS</div>
     <div class="godparents-grid">
       <div class="godparent-group">
-        <div class="group-title">Male</div>
+        <div class="group-title">Ninong</div>
         <ul class="godparent-list">
           <li>AGUSTIN, Rexy</li>
           <li>BACLIG, James</li>
@@ -140,12 +129,10 @@
           <li>VALDEZ, Rommel</li>
           <li>VERANO, Norman</li>
           <li>VIGILIA, Jayson</li>
-          <!-- <li>reserved</li>
-          <li>reserved</li> -->
         </ul>
       </div>
       <div class="godparent-group">
-        <div class="group-title">Female</div>
+        <div class="group-title">Ninang</div>
         <ul class="godparent-list">
           <li>APOLONIO, Marissa</li>
           <li>CAMBE, Nenita</li>
@@ -159,34 +146,59 @@
           <li>VICENTE, Marivic</li>
         </ul>
       </div>
-      <!-- <h3>See you!</h3> -->
     </div>
   </div>
 
-  <!-- MAP -->
-  <div class="map-section fade-in-section delay-3">
-    <div class="map-box">
-  <iframe
-    src="https://maps.google.com/maps?q=15.6303773,120.9517573&z=17&output=embed"
-    width="100%"
-    height="100%"
-    style="border:0;"
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade"
-    allowfullscreen>
-  </iframe>
-  <!-- <p class="map-fallback">
-  Having trouble loading the map?
-  <a href="https://www.google.com/maps?q=15.6303773,120.9517573" target="_blank">
-    Open in Google Maps
-  </a>
-</p> -->
-</div>
-  </div>
-  <a href="https://www.google.com/maps/dir/?api=1&destination=15.6303773,120.9517573"
-     target="_blank" class="directions-btn">🚗 Get Directions</a>
+  <!-- DUAL MAPS -->
+  <div class="dual-maps fade-in-section delay-3">
 
-  
+    <!-- Church -->
+    <div class="map-card glass">
+      <div class="map-card-header">
+        <div class="map-card-icon">⛪</div>
+        <div class="map-card-meta">
+          <div class="map-card-label">Ceremony · 9:30 AM</div>
+          <div class="map-card-title">San Isidro de Labrador Parish Church</div>
+        </div>
+      </div>
+      <div class="map-embed-box">
+        <iframe
+          src="https://maps.google.com/maps?q=15.5843843,120.9189733&z=16&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=15.5843843,120.9189733"
+         target="_blank" class="map-dir-btn">
+        🚗 Directions to Church
+      </a>
+    </div>
+
+    <!-- Reception -->
+    <div class="map-card glass">
+      <div class="map-card-header">
+        <div class="map-card-icon">🎉</div>
+        <div class="map-card-meta">
+          <div class="map-card-label">Reception · 11:00 AM</div>
+          <div class="map-card-title">Villa Velmar Resort</div>
+        </div>
+      </div>
+      <div class="map-embed-box">
+        <iframe
+          src="https://maps.google.com/maps?q=15.6303773,120.9517573&z=16&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=15.6303773,120.9517573"
+         target="_blank" class="map-dir-btn">
+        🚗 Directions to Venue
+      </a>
+    </div>
+
+  </div>
 
   <!-- MESSAGE WALL -->
   <div class="section-card glass message-wall fade-in-section delay-6">
@@ -212,7 +224,8 @@
       <img src="images/7.jpg" alt=""><img src="images/8.jpg" alt="">
     </div>
   </div>
-  <!-- GUEST List -->
+
+  <!-- GUEST LIST -->
   <div class="guest-gallery-section fade-in-section delay-5">
     <h2 class="guest-gallery-title">👥 Guests</h2>
     <div class="gallery-note" id="guestGalleryPrompt">
@@ -243,7 +256,7 @@
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
-  const guestListPassword = "admin_vincent"; // Set the guest list password here
+  const guestListPassword = "admin_vincent";
 
   const eventDate = new Date("May 23, 2026 09:30:00").getTime();
   const eventLocation = { lat: 15.6303773, lng: 120.9517573 };
@@ -314,7 +327,7 @@
 
   function createMessageItem(docSnapshot) {
     const data = docSnapshot.data();
-    const reactions = data.reactions || { heart: 0, pray: 0, sparkle: 0 };
+    const reactions = data.reactions || { heart: 0 };
     const item = document.createElement('div');
     item.className = 'message-item';
     item.innerHTML = `
